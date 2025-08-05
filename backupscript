@@ -2,7 +2,7 @@
 
 files=('.aliases' '.alias_extra' '.ssh/config' '.gitconfig' '.zshrc' '.vimrc')
 fdirs=('.sshrc.d' 'config')
-for file in "${cond_files[@]}"; do
+for file in "${files[@]}"; do
     cp "$HOME/${file}" $file
 done
 
@@ -10,3 +10,5 @@ for fdir in "${firds[@]}"; do
     rm -rf $fdir
     cp -r "$HOME/$fdir" $fdir
 done
+
+cp .zshrc .sshrc.d/.zshrc
