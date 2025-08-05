@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+alias cls=clear
+alias checklist='~/config/checklist.sh'
+alias autocommit='~/config/commit_tools.sh'
+alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
+alias shutdown='sudo shutdown now;'
+alias python='python3'
+
+moveinto(){
+    mkdir $1
+    cd $1
+}
+
+setuptemplates(){
+    cp -r ~/config/vsc_config/vscode ./.vscode
+    cp -r ~/config/vsc_config/fttemplates ./.fttemplates
+    cp -r ~/config/vsc_config/templates ./.vscode/templates
+}
+
+startrebase(){
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    git checkout ${*: -1:1}
+    git pull
+    git checkout $current_branch
+    git rebase ${*: -1:1}
+}
+
+listblame(){
+    DIR=$1
+    IFS="$\n"
+    cd "$DIR"
+    for i in $(find . -iname "*.py"); do
+        LIST="`git blame --line-porcelain "$i" | grep 'author' | sed "s,author,," | tr -d ' '`
+        $LIST"
+    done
+    echo "$LIST" | sort | unic -ic | sort -nr
+    unset IFS
+}
+
+source .alias_extra
+
+PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"

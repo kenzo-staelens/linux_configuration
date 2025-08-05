@@ -1,0 +1,58 @@
+#!/usr/bin/bash
+
+: <<'END_COMMENT'
+# basic installs
+sudo apt update
+sudo apt install git -y
+sudo apt install vim -y
+sudo apt install xclip -y
+
+# requirement old importlib for thefuck
+curdir=$(pwd)
+cd "$HOME/.local/lib/python3.12/site-packages/"
+if [ ! -L imp ]; then
+    ln -s "$curdir/imp"
+fi
+cd $curdir
+
+# install thefuck
+python -m pip install thefuck=2.5.6 --break-system-packages
+sudo apt install thefuck -y
+# cleanup
+sudo apt autoremove -y
+
+# install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+END_COMMENT
+
+# copy config files
+cond_files=('.aliases' '.ssh/config') # override check
+always=('.gitconfig' '.zshrc' '.vimrc') # always copy
+
+# copy operations for lists above
+for file in "${cond_files[@]}"; do
+    echo "check $file"
+    if test -f "$HOME/$file"; then
+        echo "File Exists ${file}; skipping"
+    else
+        echo "copy $file"
+        cp $file "$HOME/${file}"
+    fi
+done
+
+if [ ! -f '~/.alias_extra' ]; then
+    echo '#!/usr/bin/bash' > ~/.alias_extra
+fi
+if [ -d ~/.sshrc.d ]; then
+    rm -rf ~/.sshrc.d
+fi
+
+cp -r .sshrc.d ~/.sshrc.d
+
+for file in $always; do
+    cp $file "$HOME/$file"
+done
+
+if [ ! -d ~/config ]; then
+    cp -r config "$HOME"
+fi

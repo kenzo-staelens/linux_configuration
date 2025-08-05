@@ -1,0 +1,26 @@
+{
+  "xml": {
+    "comment": {
+      "ull": "ul>li[id=${1} class=${2}]*2{ Will work with html, pug, haml and slim }",
+      "oll": "<ol><li id=${1} class=${2}> Will only work in html </ol>",
+      "ran": "{ Wrap plain text in curly braces }"
+    },
+    "snippets":{
+      "test": "teset[id=${1}]/",
+      "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+      "odoo": "xml+odoo>data[noupdate=0]>",
+      "view": "record[id= model=ir.ui.view]>(field[name=name]+field[name=model]+field[name=inherit_id ref=]/)+field[name=arch type=xml]",
+      "action": "record[id= model=ir.actions.act_window]>(field[name=name]+field[name=res_model]+field[name=view_mode])",
+
+      "templateview":"template[id= inherit_id=]>",
+      "listview": "view>list>",
+      "formview": "view>form[]>",
+      "button": "button[name= type=object string=]/",
+
+      "xpath": "xpath[expr= position=]",
+      "xpathview": "view>xpath[expr= position=]",
+      "pdb": "t[t-debug=pdb]/",
+      "record": "record[id= model=]"
+    }
+  }
+}

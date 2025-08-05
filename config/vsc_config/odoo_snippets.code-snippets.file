@@ -1,0 +1,173 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+  "code snippet": {
+    "scope": "vscode://schemas/global-snippets",
+    "prefix": "snippet",
+    "body":[
+      "\"$1\": {",
+      "  \"scope\":\"$2\",",
+      "  \"prefix\": \"$3\",",
+      "  \"body\": [",
+      "    $4",
+      "  ]",
+      "},"
+    ]
+  },
+
+	"security access rule": {
+		"scope": "csv",
+		"prefix": "rule",
+		"body": [
+			"access_$1,access_$1,model_$1,base.group_user,1,1,1,1$0"
+		]
+	},
+	"changelog entry": {
+		"scope":"markdown",
+		"prefix": "clentry",
+		"body": [
+      "",
+			"## ${1:18}.0.1.${2:0}.${3:0} - $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+			"",
+			"> ${4|T,H|}${5:00000}",
+			"",
+			"### ${6|Added,Changed,Removed,Fixed|}",
+			"",
+			"- ${0:Changes}",
+			""
+		]
+	},
+
+  "on the fly action": {
+    "scope": "python",
+    "prefix": ["autoaction"],
+    "body": [
+      "def action_$1(self):",
+      "    self.ensure_one()",
+      "    wiz = self.env['$2'].create({})",
+			"    return {",
+			"        'name': _('$3'),",
+			"         'view_mode': 'form',",
+			"         'view_id': self.env.ref('$4').id,",
+			"         'view_type': 'form',",
+			"         'res_model': '$2',",
+			"         'res_id': wiz.id,",
+			"         'type': 'ir.actions.act_window',",
+			"         'target': 'new',",
+			"    }",
+    ]
+  },
+
+	"Delete Custom Views": {
+    "prefix":["delcustomviews"],
+    "body": [
+      "import logging\n",
+      "_logger = logging.getLogger(__name__)\n\n",
+      "def run(cr):",
+      "    sql = \"\"\"",
+      "    select id from ir_model_data where model = 'ir.ui.view'",
+      "    and module in (",
+      "        select name from ir_module_module",
+      "        where state = 'installed'",
+      "        and not author ilike '%Odoo%'",
+      "    )\"\"\"",
+      "    cr.execute(sql)",
+      "    recs = cr.dictfetchall()",
+      "    view_ids = [rec.get('id') for rec in recs]\n",
+      "    def get_childs(rec_id):",
+      "        cr.execute('select id from ir_ui_view where inherit_id=%s', (rec_id,))",
+      "        recs = cr.dictfetchall()",
+      "        ids = [rec.get('id') for rec in recs]",
+      "        for child_id in ids:",
+      "            get_childs(rec_id=child_id)",
+      "        cr.execute('delete from ir_ui_view where id=%s', (rec_id,))",
+      "        _logger.info('View: %s deleted' % rec_id)\n",
+      "    for view_id in view_ids:",
+      "        get_childs(rec_id=view_id)\n"
+    ],
+    "description": "Deletes custom non-odoo views and their children in Odoo"
+  },
+  "Install, Uninstall, and Upgrade Modules": {
+    "prefix":["modmanage"],
+    "body": [
+      "import logging\n",
+      "_logger = logging.getLogger(__name__)\n",
+      "todo = []  # Placeholder for module actions\n\n",
+      "def run(self):",
+      "    def install_uninstall_modules(todo_list):",
+      "        update_wizard = self.env['base.module.update'].create({})",
+      "        update_wizard.update_module()",
+      "        for type_todo, mod in todo_list:",
+      "            try:",
+      "                module = self.env['ir.module.module'].search([('name', '=', mod)])",
+      "                if not module:",
+      "                    _logger.info('No module %s found', mod)",
+      "                    _logger.info(30 * '=')",
+      "                    continue",
+      "                if type_todo == 'install' and module.state != 'installed':",
+      "                    module.sudo().button_immediate_install()",
+      "                    _logger.info('module %s installed', mod)",
+      "                    _logger.info(30 * '=')",
+      "                elif type_todo == 'uninstall' and module.state != 'uninstalled':",
+      "                    module.sudo().button_immediate_uninstall()",
+      "                    _logger.info('module %s uninstalled', mod)",
+      "                    _logger.info(30 * '=')",
+      "                elif type_todo == 'upgrade' and module.state == 'installed':",
+      "                    module.sudo().button_immediate_upgrade()",
+      "                    _logger.info('module %s upgraded', mod)",
+      "                    _logger.info(30 * '=')",
+      "            except Exception as e:",
+      "                _logger.error('Error with module: %s: %s', mod, e)",
+      "",
+      "    install_uninstall_modules(todo_list=todo)",
+      "    _logger.info('Upgrading modules done')",
+      "    _logger.info(30 * '=')\n",
+    ],
+    "description": "Snippet for installing, uninstalling, and upgrading Odoo modules"
+  },
+  "Reset Mail Templates": {
+    "prefix": ["resetmail"],
+    "body": [
+      "import logging\n",
+      "_logger = logging.getLogger(__name__)\n\n",
+      "def run(self):",
+      "    emails_before = self.env['mail.template'].search([])",
+      "    _logger.info('Found %s email templates before reset', len(emails_before))",
+      "    context = {'default_template_ids': emails_before.ids}",
+      "    mail_template_reset = (",
+      "        self.env['mail.template.reset'].with_context(context).create({})",
+      "    )",
+      "    mail_template_reset.reset_template()",
+      "    _logger.info('All found email templates have been reset')\n",
+    ],
+    "description": "Snippet for resetting mail templates in Odoo"
+  },
+  "Delete ir assets": {
+    "prefix": ["delirassets"],
+    "body": [
+      "import logging\n",
+      "_logger = logging.getLogger(__name__)\n\n",
+      "def run(cr):",
+      "    sql = \"\"\"delete from ir_asset;\"\"\"",
+      "    _logger.info('Execute: %s', sql)",
+      "    cr.execute(sql)\n",
+    ],
+    "description": "Snippet for Deleteing ir assets"
+  }
+
+}

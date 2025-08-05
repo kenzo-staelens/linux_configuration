@@ -1,0 +1,20 @@
+[user]
+    email = kenzo.staelens@accomodata.be
+    name = Kenzo Staelens
+[alias]
+    force = "push --force"
+    line = log --oneline
+    name = rev-parse --abbrev-ref HEAD
+    rba = rebase --abort
+    leave = !git add . && git commit -m '[WIP]' -n && git push
+    amend = !git add . && git commit --amend --no-edit && git push --force
+    pushsetup = !git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+    get = "!git fetch && git checkout $1 && git pull #"
+    transfer = "!git add . && git stash && git get $1 && git stash pop #"
+    rb = "!bash -c \"source ~/.aliases && startrebase $@\""
+    rc = "!git add . && git -c core.editor=true rebase --continue"
+    gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
+[push]
+    autosetupremote = False
+[pull]
+    rebase = true

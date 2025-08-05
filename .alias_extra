@@ -1,0 +1,44 @@
+#!/usr/bin/bash
+
+alias dpw='cat ~/Desktop/pw.txt | xclip -selection clipboard'
+alias rundb="psql -h db -U postgres"
+alias rundebug="runserver --debugpy --debugpy-wait-for-attach"
+
+
+mirroraudio(){
+    pactl load-module module-remap-sink sink_name=reverse-stereo master=0 channels=2 master_channel_map=front-right,    front-left channel_map=front-left,front-right
+    pactl set-default-sink reverse-stereo
+}
+
+cleandocker(){
+    for i in {15..18}; do
+    docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | gr    ep registry) 2> /dev/null
+    done
+    docker system prune -f
+}
+
+cleanup(){
+    for dir in ~/Desktop/odoo/*/repos/*; do (cd "$dir" && git gone ); done
+    for dir in ~/Desktop/odoo/*; do (cd "$dir/addons-extra" && find ./ -type l -exec file {} \;  | awk '/: broken/{print substr($1,3, length($1)-3)}' | xargs unlink); done
+    cleandocker
+}
+
+newproject(){
+    echo "Creating directory $1"
+    moveinto $1
+    echo "Setting up project"
+    projectsetup --init "$2"
+    bootstrap_configs
+    echo "Getting latest database"
+    dbrestore --drop --s3
+    echo "Bootstrapping custom templates"
+    setuptemplates
+}
+
+resetserver(){
+    projectsetup --update-all
+    dbrestore --drop --s3
+    dbrestore --post
+    cleandocker
+}
+
