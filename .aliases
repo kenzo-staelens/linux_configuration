@@ -37,6 +37,6 @@ listblame(){
     unset IFS
 }
 
-source .alias_extra
+# source .alias_extra
 
 PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"
