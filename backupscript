@@ -12,3 +12,4 @@ for fdir in "${firds[@]}"; do
 done
 
 cp .zshrc .sshrc.d/.zshrc
+code --list-extensions > vsc_extensions.txt
