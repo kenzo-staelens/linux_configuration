@@ -5,6 +5,8 @@ alias autocommit='~/config/commit_tools.sh'
 alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
 alias shutdown='sudo shutdown now;'
 alias python='python3'
+alias realias='source ~/.aliases && source ~/.alias_extra'
+
 
 moveinto(){
     mkdir $1

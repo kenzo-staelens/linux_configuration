@@ -41,3 +41,17 @@ resetserver(){
     cleandocker
 }
 
+gitredo(){
+    if [ $# -eq 0 ]; then
+        echo "No arguments supplied"
+        exit 1
+    fi
+
+    commits=$(git log --oneline "$1..")
+    commits=$(echo $commits | sed -nE 's/.*(\[.{3}\] (\w+) - (.| )+)/\1/p')
+    commits=$(echo $commits | tac)
+    commits=$(echo $commits | sed -nE 's/\[.{3}\] (\w+) - (.| )+/git add \1 \&\& git commit -m "&"/p')
+    git reset $1
+    echo $commits | while IFS= read -r line ; do eval $line; done
+    git push --force
+}
