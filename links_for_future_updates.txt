@@ -1,0 +1,2 @@
+thevaluable.dev/zsh-install-configure-mouseless
+github.com/oh-my-ssh/zsh
