@@ -1,0 +1,28 @@
+
+autoload -Uz promptinit
+promptinit
+prompt adam1
+
+setopt histignorealldups sharehistory
+
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+
+autoload -Uz compinit; compinit
+
+_comp_options+=(globdots) # With hidden files
+source ./zsh_completion
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+loadalias(){
+    source "$ZALIAS/$1"
+}
+
+for z_alias in "${ZALIAS_LOAD[@]}"; do
+    loadalias $z_alias
+done

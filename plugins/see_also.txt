@@ -1,0 +1,1 @@
+/home/kenzo/.oh-my-zsh/custom/plugins

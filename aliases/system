@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"
