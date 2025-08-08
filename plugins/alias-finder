@@ -1,7 +1,6 @@
 alias-finder() {
-  local cmd=" " exact="" longer="" cheaper="" wordEnd="'{0,1}$" finder="" filter=""
+  local cmd=" " exact=true longer=true cheaper=true wordEnd="'{0,1}$" finder="" filter=""
 
-  # build command and options
   for c in "$@"; do
     case $c in
       # TODO: Remove backward compatibility (other than zstyle form)
@@ -13,10 +12,6 @@ alias-finder() {
       *) cmd="$cmd$c " ;;
     esac
   done
-
-  zstyle -t ':omz:plugins:alias-finder' longer && longer=true
-  zstyle -t ':omz:plugins:alias-finder' exact && exact=true
-  zstyle -t ':omz:plugins:alias-finder' cheaper && cheaper=true
 
   # format cmd for grep
   ## - replace newlines with spaces
@@ -60,10 +55,7 @@ alias-finder() {
 }
 
 preexec_alias-finder() {
-  # TODO: Remove backward compatibility (other than zstyle form)
-  zstyle -t ':omz:plugins:alias-finder' autoload && alias-finder $1 || if [[ $ZSH_ALIAS_FINDER_AUTOMATIC = true ]]; then
-    alias-finder $1
-  fi
+  alias-finder $1
 }
 
 autoload -U add-zsh-hook
