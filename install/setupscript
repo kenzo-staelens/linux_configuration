@@ -3,9 +3,7 @@
 : <<'END_COMMENT'
 # basic installs
 sudo apt update
-sudo apt install code -y
-sudo apt install vim -y
-sudo apt install xclip -y
+sudo apt install code vim xclip calc -y
 
 # requirement old importlib for thefuck
 curdir=$(pwd)

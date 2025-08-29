@@ -39,4 +39,14 @@ listblame(){
     unset IFS
 }
 
+d () {
+    if [[ -n $1 ]]
+    then
+        dirs "$@"
+    else
+        dirs -v | head -n 10
+    fi
+}
+
+for index ({1..9}) alias "$index"="cd -${index}"; unset index
 PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"

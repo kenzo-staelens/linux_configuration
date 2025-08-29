@@ -16,6 +16,7 @@
       "listview": "view>list>",
       "formview": "view>form[]>",
       "button": "button[name= type=object string=]/",
+      "buttonprimary": "button.btn.btn-primary",
 
       "xpath": "xpath[expr= position=]",
       "xpathview": "view>xpath[expr= position=]",
