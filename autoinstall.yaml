@@ -4,7 +4,6 @@ autoinstall:
   # Unpause by creating the "/run/finish-early" file.
   early-commands:
     - while [ ! -f /run/finish-early ]; do sleep 1; done
-  locale: "nl_BE"
   interactive-sections:
     - network
   identity:
@@ -34,4 +33,5 @@ autoinstall:
     - git config --global user.name "Kenzo Staelens"
     - git config --global user.email "kenzostael@gmail.com"
     - git clone git@github.com:kenzo-staelens/linux_configuration.git ~/Desktop/linux_configuration
+
     
