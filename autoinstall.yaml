@@ -4,8 +4,6 @@ autoinstall:
   # Unpause by creating the "/run/finish-early" file.
   early-commands:
     - while [ ! -f /run/finish-early ]; do sleep 1; done
-  interactive-sections:
-    - network
   identity:
     hostname: pc-kenzo-ubuntu
     realname: 'Kenzo Staelens'
@@ -35,3 +33,4 @@ autoinstall:
     - git clone git@github.com:kenzo-staelens/linux_configuration.git ~/Desktop/linux_configuration
 
     
+
