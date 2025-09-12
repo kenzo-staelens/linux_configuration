@@ -5,12 +5,6 @@ autoinstall:
     realname: 'Kenzo Staelens'
     username: kenzo
     password: $6$AsD0fqoSPc5V0cnK$G2ZV7dRlGoFNMcLeylpbu8OP9TQ597AazuOxxKEQUPAvHzmkElnvviTP87t9jsnhvJeDOOqPze3L3rm9VKwmb0
-  refresh-installer:
-    update: true
-  keyboard:
-    layout: be
-    variant: ""
-    toggle: null
   packages:
     - git
     - vim
@@ -26,3 +20,4 @@ autoinstall:
     - git config --global user.name "Kenzo Staelens"
     - git config --global user.email "kenzostael@gmail.com"
     - git clone git@github.com:kenzo-staelens/linux_configuration.git ~/Desktop/linux_configuration
+
