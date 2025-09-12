@@ -15,5 +15,15 @@ autoinstall:
     - vim
     - xclip
     - calc
+    - wget
+    - curl
+    - gpg
+    - python3-pip
+    - zsh
+    - thefuck
+    - zsh-autosuggestions
+    - zsh-syntax-highlighting
+    - software-properties-common
+    - apt-transport-https
   timezone: "Europe/Brussels"
 
