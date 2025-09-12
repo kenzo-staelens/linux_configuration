@@ -2,21 +2,18 @@ autoinstall:
   version: 1
   identity:
     hostname: pc-kenzo-ubuntu
-    realname: 'Kenzo Staelens'
     username: kenzo
     password: $6$AsD0fqoSPc5V0cnK$G2ZV7dRlGoFNMcLeylpbu8OP9TQ597AazuOxxKEQUPAvHzmkElnvviTP87t9jsnhvJeDOOqPze3L3rm9VKwmb0
+  refresh-installer:
+    update: true
+  keyboard:
+    layout: be
+    variant: ""
+    toggle: null
+  locale: "nl_BE"
   packages:
     - git
     - vim
     - xclip
     - calc
   timezone: "Europe/Brussels"
-  # Pause the install just before finishing to allow manual inspection/modification.
-  # Unpause by creating the "/run/finish-late" file.
-  # need to post-script here
-  late-commands:
-    - git config --global user.name "Kenzo Staelens"
-    - git config --global user.email "kenzostael@gmail.com"
-    - git clone git@github.com:kenzo-staelens/linux_configuration.git ~/Desktop/linux_configuration
-
-
