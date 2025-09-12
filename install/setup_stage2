@@ -1,0 +1,57 @@
+#!/usr/bin/bash
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export ZALIAS="$ZDOTDIR/alias"
+
+mkdir -p "$ZDOTDIR"
+mkdir -p "$ZALIAS"
+
+CONFIG_ROOT=$(git rev-parse --show-toplevel)
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+
+# needs validate
+cp "$CONFIG_ROOT/aliases/base" "$ZALIAS/base"
+cp "$CONFIG_ROOT/aliases/system" "$ZALIAS/system"
+cp "$CONFIG_ROOT/.ssh/config" "$HOME/.ssh/config"
+
+# git setup
+cp "$CONFIG_ROOT/.gitconfig" "$HOME/.gitconfig"
+
+# zsh setup
+cp "$CONFIG_ROOT/zsh_config/.zshenv" "$HOME/.zshenv"
+cp "$CONFIG_ROOT/zsh_config/zsh/.zshrc_wip" "$ZDOTDIR/.zshrc"
+cp "$CONFIG_ROOT/zsh_config/zsh/zsh_completion" "$ZDOTDIR/zsh_completion"
+cp "$CONFIG_ROOT/zsh_config/zsh/kali-like.zsh-theme" "$ZDOTDIR/ohmyzsh/custom/themes/kali-like.zsh-theme"
+
+# vim
+cp "$CONFIG_ROOT/.vimrc" "$HOME/.vimrc"
+
+if [ ! -f '~/.alias_extra' ]; then
+    echo '#!/usr/bin/bash' > "$ZALIAS/.aliases"
+fi
+
+if [ -d "$XDG_CONFIG_HOME/.sshrc.d" ]; then
+    rm -rf "$XDG_CONFIG_HOME/.sshrc.d"
+fi
+
+if [ -d "$ZDOTDIR/plugins" ]; then
+    rm -rf "$ZDOTDIR/plugins"
+fi
+
+cp -r "$CONFIG_ROOT/.sshrc.d" "$XDG_CONFIG_HOME/.sshrc.d"
+cp -r "$CONFIG_ROOT/plugins" "$ZDOTDIR/plugins"
+
+if [ ! -d "$XDG_CONFIG_HOME/tools" ]; then
+    cp -r "$CONFIG_ROOT/tools" "$XDG_CONFIG_HOME/tools"
+fi
+
+while read p; do
+    code --install-extension "$p" --force
+done < "$CONFIG_ROOT/vsc_extensions.txt"
+
+yes | ssh-keygen -t ed25519 -N '' -f ~/.ssh/id_ed25519
+sudo chsh -s $(which zsh)
+sudo usermod --shell $(which zsh) $(whoami)
+pkill -KILL -u $(whoami)

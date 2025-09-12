@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+
+XDG_CONFIG_HOME="$HOME/.config"
+CONFIG_ROOT=$(git rev-parse --show-toplevel)
+# requirement old importlib for thefuck
+mkdir -p "$HOME/.local/lib/python3.12/site-packages/"
+cd "$HOME/.local/lib/python3.12/site-packages/"
+if [ ! -L imp ]; then
+    ln -s "$CONFIG_ROOT/imp"
+fi
+
+# install thefuck
+sudo apt install python3-pip -y
+python3 -m pip install thefuck==2.5.6 --break-system-packages
+sudo apt install zsh thefuck zsh-autosuggestions zsh-syntax-highlighting -y
+
+sudo apt install software-properties-common apt-transport-https curl -y
+sudo install -D -o root -g root -m 644 "$CONFIG_ROOT/microsoft.gpg" /usr/share/keyrings/microsoft.gpg
+
+sudo cp "$CONFIG_ROOT/vscode.sources" /etc/apt/sources.list.d/vscode.sources
+sudo apt update
+sudo apt install code
+sudo apt upgrade
+sudo apt autoremove -y

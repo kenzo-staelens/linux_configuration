@@ -1,9 +1,7 @@
-
-autoload -Uz promptinit
-promptinit
-prompt adam1
-
+source ~/.zshenv
 setopt histignorealldups sharehistory
+
+ZSH="$ZDOTDIR/ohmyzsh"
 
 HISTSIZE=1000
 SAVEHIST=1000
@@ -12,17 +10,20 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit; compinit
 
 _comp_options+=(globdots) # With hidden files
-source ./zsh_completion
+source $ZDOTDIR/zsh_completion
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-loadalias(){
-    source "$ZALIAS/$1"
-}
+ZSH_THEME='kali-like'
+source $ZSH/oh-my-zsh.sh
 
 for z_alias in "${ZALIAS_LOAD[@]}"; do
-    loadalias $z_alias
+    source "$ZALIAS/$z_alias"
+done
+
+for z_plugin in "$ZPLUGIN_LOAD[@]"; do
+    source "$ZPLUGIN/$z_plugin"
 done

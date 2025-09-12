@@ -1,13 +1,7 @@
 #!/usr/bin/bash
 
-alias dpw='cat ~/Desktop/pw.txt | xclip -selection clipboard'
 alias rundb="psql -h db -U postgres"
 alias rundebug="runserver --debugpy --debugpy-wait-for-attach"
-
-mirroraudio(){
-    pactl load-module module-remap-sink sink_name=reverse-stereo master=0 channels=2 master_channel_map=front-right,    front-left channel_map=front-left,front-right
-    pactl set-default-sink reverse-stereo
-}
 
 cleandocker(){
     for i in {15..18}; do
@@ -41,17 +35,16 @@ resetserver(){
     cleandocker
 }
 
-gitredo(){
-    if [ $# -eq 0 ]; then
-        echo "No arguments supplied"
-        exit 1
+gitsetbases(){
+    projectsetup -r
+    if [[ $PWD = ~/Desktop/odoo/*/** ]]; then
+        local d="${PWD#~/Desktop/odoo/*/**}"
+        cd "${PWD%"$d"}"
+        resetcmd=$(cat .instance_data.json | python -c 'import sys, json; print("\n".join([f"cd repos/{k}\ngit checkout {v["branch"]}\ngit pull\ncd ../.." for k,v in json.load(sys.stdin)["branches"].items()]))')
+        call_multiline $resetcmd
+        cd $d
+    else
+        echo "not in a repository"
     fi
-
-    commits=$(git log --oneline "$1..")
-    commits=$(echo $commits | sed -nE 's/.*(\[.{3}\] (\w+) - (.| )+)/\1/p')
-    commits=$(echo $commits | tac)
-    commits=$(echo $commits | sed -nE 's/\[.{3}\] (\w+) - (.| )+/git add \1 \&\& git commit -m "&"/p')
-    git reset $1
-    echo $commits | while IFS= read -r line ; do eval $line; done
-    git push --force
 }
+

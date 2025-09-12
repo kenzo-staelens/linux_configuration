@@ -1,5 +1,5 @@
 [user]
-    email = kenzo.staelens@accomodata.be
+    email = kenzostael@gmail.com
     name = Kenzo Staelens
 [alias]
     force = "push --force"
@@ -15,6 +15,7 @@
     rc = "!git add . && git -c core.editor=true rebase --continue"
     gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
     redo = "!bash -c \"source ~/.alias_extra && gitredo $1\""
+    graph = "log --all --decorate --oneline --graph"
 [push]
     autosetupremote = False
 [pull]

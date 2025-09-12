@@ -1,12 +1,17 @@
 #!/usr/bin/bash
 alias cls=clear
 alias python='python3'
-alias checklist='~/config/checklist.sh'
-alias autocommit='~/config/commit_tools.sh'
+alias checklist="$XDG_CONFIG_HOME/tools/checklist.sh"
+alias autocommit="$XDG_CONFIG_HOME/tools/config/commit_tools.sh"
 alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
 alias shutdown='sudo shutdown now;'
-alias realias='source ~/.aliases && source ~/.alias_extra'
+alias ruffix='ruff check . --fix --unsafe-fixes --fixable=ALL'
 
+realias() {
+    for z_plugin in "$ZPLUGIN_LOAD[@]"; do
+        source "$ZPLUGIN/$z_plugin"
+    done
+}
 
 moveinto(){
     mkdir $1
@@ -14,9 +19,9 @@ moveinto(){
 }
 
 setuptemplates(){
-    cp -r ~/config/vsc_config/vscode ./.vscode
-    cp -r ~/config/vsc_config/fttemplates ./.fttemplates
-    cp -r ~/config/vsc_config/templates ./.vscode/templates
+    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/vscode" ./.vscode
+    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/fttemplates" ./.fttemplates
+    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/templates" ./.vscode/templates
 }
 
 startrebase(){
