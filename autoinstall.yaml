@@ -10,10 +10,10 @@ autoinstall:
     layout: be
     variant: ""
     toggle: null
-  locale: "nl_BE"
   packages:
     - git
     - vim
     - xclip
     - calc
   timezone: "Europe/Brussels"
+
