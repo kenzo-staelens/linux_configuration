@@ -3,3 +3,4 @@ source ~/.bashrc_kenzo/.zshrc
 cat /run/motd.dynamic
 
 alias dfind="docker ps -a | grep"
+alias cls="clear"

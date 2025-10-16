@@ -29,8 +29,16 @@ newproject(){
 }
 
 resetserver(){
+    projectsetup -R
     projectsetup --update-all
-    dbrestore --drop --s3
+    sleep 1
+    if [ "$#" -eq 1 ]; then
+        echo "restoring from zip file"
+        dbrestore --drop --zip $@
+    else
+        echo "restoring from s3"
+        dbrestore --drop --s3
+    fi
     dbrestore --post
     cleandocker
 }
@@ -46,5 +54,16 @@ gitsetbases(){
     else
         echo "not in a repository"
     fi
+}
+
+link(){
+    curdir=${PWD##*/}
+    echo $curdir
+    while [[ $(ls | grep addons-extra | wc -l) == 0 ]]; do
+        cd ..
+    done
+    cd addons-extra
+    ln -s "../repos/$curdir/$1"
+    cd "../repos/$curdir"
 }
 

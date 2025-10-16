@@ -6,6 +6,7 @@
     line = log --oneline
     name = rev-parse --abbrev-ref HEAD
     rba = rebase --abort
+    dh = diff HEAD
     leave = !git add . && git commit -m '[WIP]' -n && git push
     amend = !git add . && git commit --amend --no-edit && git push --force
     pushsetup = !git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
