@@ -1,6 +1,30 @@
 #!/usr/bin/bash
-source ~/.bashrc_kenzo/.zshrc
+# source /tmp/.bashrc_kenzo.d/.zshrc
 cat /run/motd.dynamic
 
-alias dfind="docker ps -a | grep"
+cd /srv
+
 alias cls="clear"
+alias dfind="docker ps -a | grep"
+alias l="ls"
+alias la="ls -a"
+alias lgrep="ls | grep"
+
+function cdg() {
+    if [[ $(ls | grep $@ | wc -l) -eq 1 ]]; then
+        cd $(ls | grep $@)
+    else
+        printf '%s\n' $(ls | grep $@)
+    fi
+}
+
+function dgreplog(){
+    containers=$(docker ps -a | grep $1)
+    if [[ $(docker ps -a | grep $1 | wc -l) -eq 1 ]]; then
+        docker logs -f $(echo $containers | grep -E -o "^\w+")
+    else
+        printf $(docker ps -a | grep $1)
+    fi
+}
+
+alias rundanger="runserver --danger_skip_database_disarming_test"

@@ -67,3 +67,8 @@ link(){
     cd "../repos/$curdir"
 }
 
+bump(){
+    sed -i "/version/c\    'version': '$1.0.1.0.0'," */__manifest__.py
+    sed -i "/installable/c\    'installable': False," */__manifest__.py
+}
+
