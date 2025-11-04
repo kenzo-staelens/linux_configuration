@@ -1,0 +1,10 @@
+# config file from odoo / apertoso tools
+[main]
+db_host=db
+db_password=admin
+db_user=admin
+[devel_setup]
+db_admin_database=postgres
+db_admin_user=admin
+devel_mode=True
+data_subdir=data

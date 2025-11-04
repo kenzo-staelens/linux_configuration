@@ -4,4 +4,6 @@ CONFIG_ROOT=$(git rev-parse --show-toplevel)
 
 bash "$CONFIG_ROOT/install/base_installers"
 bash "$CONFIG_ROOT/install/setup_stage2"
+bash "$CONFIG_ROOT/install/post_install"
+bash "$CONFIG_ROOT/install/disk_resize"
 git remote set-url origin git@github.com:kenzo-staelens/linux_configuration.git

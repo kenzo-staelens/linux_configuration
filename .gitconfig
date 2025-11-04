@@ -1,6 +1,8 @@
 [user]
-    email = kenzostael@gmail.com
+    email = kenzostael@gmail.be
     name = Kenzo Staelens
+[includeIf "hasconfig:remote.*.url:git@gitlab.com:*/**"]
+    path = "~/.gitconfig_work"
 [alias]
     force = "push --force"
     line = log --oneline

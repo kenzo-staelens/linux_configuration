@@ -1,6 +1,7 @@
 source ~/.zshenv
 setopt histignorealldups sharehistory
 
+source ~/.zshenv
 ZSH="$ZDOTDIR/ohmyzsh"
 
 HISTSIZE=1000
@@ -27,3 +28,12 @@ done
 for z_plugin in "$ZPLUGIN_LOAD[@]"; do
     source "$ZPLUGIN/$z_plugin"
 done
+
+if [[ $WORK -eq 1 ]]; then
+    for z_alias_work in "$ZALIAS_LOAD_WORK[@]"; do
+        source "$ZALIAS/$z_alias_work"
+    done
+fi
+
+# load system specific alias (vs aliases/system for generic)
+source $ZALIAS/.aliases

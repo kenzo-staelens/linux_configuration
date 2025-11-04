@@ -5,7 +5,7 @@ alias rundebug="runserver --debugpy --debugpy-wait-for-attach"
 
 cleandocker(){
     for i in {15..18}; do
-    docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | gr    ep registry) 2> /dev/null
+    docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | grep registry) 2> /dev/null
     done
     docker system prune -f
 }

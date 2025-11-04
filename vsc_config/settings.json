@@ -1,0 +1,62 @@
+{
+    "terminal.integrated.stickyScroll.enabled": false,
+    "emmet.showSuggestionsAsSnippets": true,
+    "editor.tabCompletion": "on",
+    "editor.quickSuggestions":{
+        "other": "on",
+        "comments": "on",
+        "strings": "on"
+    },
+    "[snippets]": {
+        "editor.tabCompletion": "on",
+        "editor.quickSuggestions":{
+            "other": "on",
+            "comments": "on",
+            "strings": "on"
+        }
+    },
+    "[markdown]": {
+        "editor.tabCompletion": "on",
+        "editor.quickSuggestions":{
+            "other": "on",
+            "comments": "on",
+            "strings": "on"
+        }
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "emmet.useInlineCompletions": true,
+    "todo-tree.highlights.useColourScheme": true,
+    "python.analysis.supportDocstringTemplate": true,
+    "autoDocstring.docstringFormat": "sphinx",
+    "editor.rulers": [
+        88, 120
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "emmet.extensionsPath": [
+        "/home/kenzo/Desktop/linux_configuration/vsc_config"
+    ],
+    "workbench.settings.applyToAllProfiles": [
+        "emmet.extensionsPath"
+    ],
+    "editor.tokenColorCustomizations":{
+        "[Default Dark+]": {
+            "textMateRules": [
+                {
+                    "scope": "variable.other.readwrite",
+                    "settings": {
+                        "foreground": "#eb4e7d"
+                    }
+                }
+            ]
+        }
+
+    },
+    "editor.semanticHighlighting.enabled": true,
+    "workbench.colorTheme": "Default Dark+",
+    "emmet.includeLanguages": {
+        "python": "python",
+    },
+    "svg.preview.mode": "svg",
+}

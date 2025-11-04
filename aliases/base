@@ -1,16 +1,28 @@
 #!/usr/bin/bash
 alias cls=clear
 alias python='python3'
-alias checklist="$XDG_CONFIG_HOME/tools/checklist.sh"
-alias autocommit="$XDG_CONFIG_HOME/tools/config/commit_tools.sh"
+alias checklist="$HOME/tools/checklist.sh"
+alias autocommit="$HOME/tools/commit_tools.sh"
 alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
 alias shutdown='sudo shutdown now;'
 alias ruffix='ruff check . --fix --unsafe-fixes --fixable=ALL'
 
-realias() {
-    for z_plugin in "$ZPLUGIN_LOAD[@]"; do
-        source "$ZPLUGIN/$z_plugin"
+clipfile(){
+    cat $1 | xclip -selection clipboard
+}
+
+realias(){
+    for z_alias in "${ZALIAS_LOAD[@]}"; do
+        source "$ZALIAS/$z_alias"
     done
+
+    if [[ $WORK -eq 1 ]]; then
+        for z_alias_work in "$ZALIAS_LOAD_WORK[@]"; do
+            source "$ZALIAS/$z_alias_work"
+        done
+    fi
+
+
 }
 
 moveinto(){
@@ -19,9 +31,11 @@ moveinto(){
 }
 
 setuptemplates(){
-    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/vscode" ./.vscode
-    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/fttemplates" ./.fttemplates
-    cp -r "$XDG_CONFIG_HOME/tools/vsc_config/templates" ./.vscode/templates
+    rm -rf ./.vscode
+    rm -rf ./.fttemplates
+    cp -r "$HOME/vsc_config/vscode" ./.vscode
+    cp -r "$HOME/vsc_config/fttemplates" ./.fttemplates
+    cp -r "$HOME/vsc_config/templates" ./.vscode/templates
 }
 
 startrebase(){

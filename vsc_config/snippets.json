@@ -17,5 +17,10 @@
       "menu": "menuitem[id= action= parent= sequence=10]",
       "record": "record[id= model=]"
     }
+  },
+  "python": {
+    "snippets": {
+      "oimp": "from . import"
+    }
   }
 }
