@@ -1,83 +1,4 @@
 {
-  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
-  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
-  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
-  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
-  // Placeholders with the same ids are connected.
-  // Example:
-  // "Print to console": {
-  //  "scope": "javascript,typescript",
-  //  "prefix": "log",
-  //  "body": [
-  //    "console.log('$1');",
-  //    "$2"
-  //  ],
-  //  "description": "Log output to console"
-  // }
-
-  "code snippet": {
-    "scope": "vscode://schemas/global-snippets",
-    "prefix": "snippet",
-    "body":[
-      "\"$1\": {",
-      "  \"scope\":\"$2\",",
-      "  \"prefix\": \"$3\",",
-      "  \"body\": [",
-      "    $4",
-      "  ]",
-      "},"
-    ]
-  },
-
-  "security header": {
-    "scope": "csv",
-    "prefix": "secheader",
-    "body": "id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink\n"
-  },
-  "security access rule": {
-    "scope": "csv",
-    "prefix": "rule",
-    "body": [
-      "access_$1,access_$1,model_$1,base.group_user,1,1,1,1$0"
-    ]
-  },
-  "changelog entry": {
-    "scope":"markdown",
-    "prefix": "clentry",
-    "body": [
-      "",
-      "## ${1:18}.0.${2:1}.${3:0}.${4:0} - $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
-      "",
-      "> ${5|T,H|}${6:00000}",
-      "",
-      "### ${7|Added,Changed,Removed,Fixed|}",
-      "",
-      "- ${0:Changes}",
-      ""
-    ]
-  },
-
-  "on the fly action": {
-    "scope": "python",
-    "prefix": ["autoaction"],
-    "body": [
-      "def action_$1(self):",
-      "    self.ensure_one()",
-      "    wiz = self.env['$2'].create({})",
-      "    return {",
-      "        'name': _('$3'),",
-      "         'view_mode': 'form',",
-      "         'view_id': self.env.ref('$4').id,",
-      "         'view_type': 'form',",
-      "         'res_model': '$2',",
-      "         'res_id': wiz.id,",
-      "         'type': 'ir.actions.act_window',",
-      "         'target': 'new',",
-      "    }",
-    ]
-  },
-
   "Delete Custom Views": {
     "prefix":["delcustomviews"],
     "body": [
@@ -173,6 +94,5 @@
       "    cr.execute(sql)\n",
     ],
     "description": "Snippet for Deleteing ir assets"
-  }
-
+  },
 }

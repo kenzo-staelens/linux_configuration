@@ -1,0 +1,17 @@
+{
+  "changelog entry": {
+    "scope": "markdown",
+    "prefix": "clentry",
+    "body": [
+      "",
+      "## ${1:17}.0.${2:1}.${3:0}.${4:0} - $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "",
+      "> ${5|T,H|}${6:00000}",
+      "",
+      "### ${7|Added,Changed,Removed,Fixed|}",
+      "",
+      "- ${0:Changes}",
+      ""
+    ]
+  }
+}
