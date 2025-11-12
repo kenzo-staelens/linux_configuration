@@ -14,10 +14,9 @@
     pushsetup = !git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
     get = "!git fetch && git checkout $1 && git pull #"
     transfer = "!git add . && git stash && git get $1 && git stash pop #"
-    rb = "!bash -c \"source ~/.aliases && startrebase $@\""
+    rb = "!$SHELL -c \"source ~/zsh/alias/base && startrebase $@\""
     rc = "!git add . && git -c core.editor=true rebase --continue"
     gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
-    redo = "!bash -c \"source ~/.alias_extra && gitredo $1\""
     graph = "log --all --decorate --oneline --graph"
 [push]
     autosetupremote = False

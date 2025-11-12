@@ -27,4 +27,15 @@ function dgreplog(){
     fi
 }
 
+function dpostdb(){
+    docker stop $1
+    dbrestore --post
+    runserver -R
+}
+
+function drm() {
+    docker ps -a | grep $1 | grep Exited | grep -Eo "^\w+" | xargs docker container rm
+}
+# redefined to show up in "alias" output
+alias drm="drm"
 alias rundanger="runserver --danger_skip_database_disarming_test"

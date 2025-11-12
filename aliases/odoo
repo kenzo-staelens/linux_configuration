@@ -49,7 +49,7 @@ gitsetbases(){
         local d="${PWD#~/Desktop/odoo/*/**}"
         cd "${PWD%"$d"}"
         resetcmd=$(cat .instance_data.json | python -c 'import sys, json; print("\n".join([f"cd repos/{k}\ngit checkout {v["branch"]}\ngit pull\ncd ../.." for k,v in json.load(sys.stdin)["branches"].items()]))')
-        call_multiline $resetcmd
+        $SHELL -c $resetcmd
         cd $d
     else
         echo "not in a repository"

@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/zsh
 alias cls=clear
 alias python='python3'
 alias checklist="$HOME/tools/checklist.sh"
