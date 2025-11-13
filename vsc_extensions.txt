@@ -8,6 +8,7 @@ dqisme.sync-scroll
 editorconfig.editorconfig
 gruntfuggly.todo-tree
 huuums.vscode-fast-folder-structure
+iancooper.code-zpl
 inferrinizzard.prettier-sql-vscode
 jeff-hykin.better-shellscript-syntax
 mechatroner.rainbow-csv
@@ -17,6 +18,11 @@ ms-python.debugpy
 ms-python.python
 ms-python.vscode-pylance
 ms-python.vscode-python-envs
+mtxr.sqltools
+mtxr.sqltools-driver-pg
+mtxr.sqltools-driver-sqlite
+njpwerner.autodocstring
+qwtel.sqlite-viewer
 rhangai.file-template
 samuelcolvin.jinjahtml
 standard.vscode-standard

@@ -38,7 +38,8 @@
         "/home/kenzo/Desktop/linux_configuration/vsc_config"
     ],
     "workbench.settings.applyToAllProfiles": [
-        "emmet.extensionsPath"
+        "emmet.extensionsPath",
+        "todo-tree.highlights.foregroundColourScheme"
     ],
     "editor.tokenColorCustomizations":{
         "[Default Dark+]": {
@@ -59,4 +60,34 @@
         "python": "python",
     },
     "svg.preview.mode": "svg",
+    "todo-tree.highlights.backgroundColourScheme": [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "violet",
+        "cyan"
+    ],
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "CHANGED"
+    ],
+    "todo-tree.highlights.foregroundColourScheme": [
+        "white",
+        "black",
+        "black",
+        "white",
+        "white",
+        "white",
+        "black",
+        "black"
+    ],
 }
