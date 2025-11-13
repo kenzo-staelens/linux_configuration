@@ -24,3 +24,4 @@ augroup silent! pygroup
 " return to cursor
 "    autocmd BufWrite *.py normal! `a
 augroup END
+autocmd FileType zsh execute 'set syntax=bash'
