@@ -2,6 +2,8 @@
 
 alias rundb="psql -h db -U postgres"
 alias rundebug="runserver --debugpy --debugpy-wait-for-attach"
+alias dlbackup="rm backup.zip; curl -o backup.zip"
+alias restorezip="dbrestore --drop --zip $(projectroot)/backup.zip"
 
 cleandocker(){
     for i in {15..18}; do
@@ -11,14 +13,28 @@ cleandocker(){
 }
 
 cleanup(){
-    for dir in ~/Desktop/odoo/*/repos/*; do (cd "$dir" && git gone ); done
-    for dir in ~/Desktop/odoo/*; do (cd "$dir/addons-extra" && find ./ -type l -exec file {} \;  | awk '/: broken/{print substr($1,3, length($1)-3)}' | xargs unlink); done
+    curdir=$(pwd)
+    if ! mv_projectroot; then
+        cleandocker
+        cd $curdir
+        return
+    fi
+    rootdir=$(pwd)
+    for dir in ./repos/*; do
+        cd $dir
+        git gone
+        cd $rootdir
+    done
+    cd addons-extra
+    find ./ -type l -exec file {} \;  | awk '/: broken/{print substr($1,3, length($1)-3)}' | xargs unlink
     cleandocker
+    cd $curdir
 }
 
 newproject(){
     echo "Creating directory $1"
     moveinto $1
+    mark_projectroot
     echo "Setting up project"
     projectsetup --init "$2"
     bootstrap_configs
@@ -45,26 +61,26 @@ resetserver(){
 
 gitsetbases(){
     projectsetup -r
-    if [[ $PWD = ~/Desktop/odoo/*/** ]]; then
-        local d="${PWD#~/Desktop/odoo/*/**}"
-        cd "${PWD%"$d"}"
-        resetcmd=$(cat .instance_data.json | python -c 'import sys, json; print("\n".join([f"cd repos/{k}\ngit checkout {v["branch"]}\ngit pull\ncd ../.." for k,v in json.load(sys.stdin)["branches"].items()]))')
-        $SHELL -c $resetcmd
-        cd $d
-    else
-        echo "not in a repository"
+    curdir=$(pwd)
+    mv_projectroot
+    if [[ ! -f .instance_data.json ]]; then
+        cd $curdir
+        return
     fi
+    resetcmd=$(cat .instance_data.json | python -c 'import sys, json; print("\n".join([f"cd repos/{k}\ngit checkout {v["branch"]}\ngit pull\ncd ../.." for k,v in json.load(sys.stdin)["branches"].items()]))')
+    $SHELL -c $resetcmd
+    cd $curdir
 }
 
 link(){
-    curdir=${PWD##*/}
-    echo $curdir
-    while [[ $(ls | grep addons-extra | wc -l) == 0 ]]; do
-        cd ..
-    done
-    cd addons-extra
-    ln -s "../repos/$curdir/$1"
-    cd "../repos/$curdir"
+    curdir=$(pwd)
+    # our system requires relative symlinks
+    gitroot=$(basename $(git rev-parse --show-toplevel))
+    if mv_projectroot; then
+        cd addons-extra
+        ln -s "../repos/$gitroot/$1"
+    fi
+    cd $curdir
 }
 
 bump(){

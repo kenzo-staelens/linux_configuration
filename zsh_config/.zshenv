@@ -2,7 +2,7 @@ export ZDOTDIR="$HOME/zsh"
 export XDG_CACHE_HOME="$HOME/cache"
 
 export ZALIAS="$ZDOTDIR/alias"
-export ZALIAS_LOAD=('base' 'system')
+export ZALIAS_LOAD=('base' 'system' 'templates')
 export ZALIAS_LOAD_WORK=('odoo')
 
 export WORK=1

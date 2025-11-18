@@ -1,5 +1,7 @@
 #!/usr/bin/bash
-PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"
+_ORIG_PATH=$PATH
+PATH="$_ORIG_PATH:/home/kenzo/Desktop/tools:~/.local/bin"
+alias pipbreak="pip install --break-system-packages"
 
 mirroraudio(){
     pactl load-module module-remap-sink sink_name=reverse-stereo master=0 channels=2 master_channel_map=front-right,    front-left channel_map=front-left,front-right

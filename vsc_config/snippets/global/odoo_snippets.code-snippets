@@ -77,5 +77,15 @@
       "         'target': 'new',",
       "    }",
     ]
-  }
+  },
+
+  "odoo callable with for loop": {
+    "scope":"python",
+    "prefix": ["ocomp"],
+    "body": [
+      "def $1(self):",
+      "    for record in self:",
+      "        ${0:pass}"
+    ]
+  },
 }

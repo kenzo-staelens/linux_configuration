@@ -25,3 +25,4 @@ augroup silent! pygroup
 "    autocmd BufWrite *.py normal! `a
 augroup END
 autocmd FileType zsh execute 'set syntax=bash'
+autocmd BufRead,BufNewFile .gitconfig* set syntax=gitconfig

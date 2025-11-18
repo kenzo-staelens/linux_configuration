@@ -13,6 +13,8 @@ clipfile(){
 }
 
 realias(){
+    # force reloading env if those changed
+    source ~/.zshenv
     for z_alias in "${ZALIAS_LOAD[@]}"; do
         source "$ZALIAS/$z_alias"
     done
@@ -24,72 +26,8 @@ realias(){
     fi
 }
 
-moveinto(){
-    mkdir $1
-    cd $1
-}
 
-setuptemplates(){
-    # rm -rf does not follow simlinks
-    rm -rf ./.vscode
-    rm -rf ./.fttemplates
-
-    # static vsc files/empty dirs
-    cp -r "$HOME/vsc_config/vscode" ./.vscode
-    mkdir ./.fttemplates
-    cp -r "$HOME/vsc_config/templates" ./.vscode/templates
-
-    # versioned files
-    setup_versioned $1
-}
-
-setup_versioned(){
-    if [[ $1 != '' ]]; then
-        read_version=$1
-    else
-        echo "version:"
-        read read_version
-    fi
-    if [[ $read_version -eq '' ]]; then
-        echo "no version to set up"
-        return
-    fi
-    versions=('global' "$read_version")
-    for version in $versions; do
-        setuptemplates_versioned_snippet $version
-        setuptemplates_versioned_fttemplates $version
-    done
-}
-
-setuptemplates_versioned_fttemplates() {
-    VERSIONED_DIR="$HOME/vsc_config/fttemplates"
-    if [[ -d "$VERSIONED_DIR/$version" ]]; then
-        echo "setting up templates version '$version'"
-        for file in $VERSIONED_DIR/$version/*; do
-            base=$(basename $file)
-            if [[ "$base" == '*' ]]; then; continue; fi
-            # fttemplates does not like simlinked directories
-            cp -r $file "./.fttemplates/$base"
-        done
-    else
-        echo "version '$version' not found"
-    fi
-}
-
-setuptemplates_versioned_snippet(){
-    VERSIONED_DIR="$HOME/vsc_config/snippets"
-    if [[ -d "$VERSIONED_DIR/$version" ]]; then
-        echo "setting up snippets version '$version'"
-        for file in $VERSIONED_DIR/$version/*; do
-            base=$(basename $file)
-            if [[ "$base" == '*' ]]; then; continue; fi
-            ln -s "$file" ./.vscode/$base
-        done
-    else
-        echo "version '$version' not found"
-    fi
-}
-
+# git stuff
 startrebase(){
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     git checkout ${*: -1:1}
@@ -110,7 +48,60 @@ listblame(){
     unset IFS
 }
 
-d () {
+#directory traversal
+# mkdir and cd
+moveinto(){
+    mkdir $1
+    cd $1
+}
+
+## projectroot
+mark_projectroot(){
+    if [[ $1 != '' ]]; then
+        touch "$1/.projectroot"
+        return
+    fi
+    touch ".projectroot"
+}
+
+mv_projectroot(){
+    curdir=$(pwd)
+    while [[ ! -f .projectroot ]]; do
+        if [[ $(pwd) == '/' ]]; then
+            echo "Project Root not found"
+            cd $curdir
+            return 1
+        fi
+        cd ..
+    done
+}
+
+projectroot(){
+    # get the relative path to projectroot
+    curdir=$(pwd)
+    has_moved=0
+    while [[ ! -f .projectroot ]]; do
+        if [[ $(pwd) == '/' ]]; then
+            echo -n '.'
+            cd $curdir
+            return 1
+        fi
+        # makes using as $(projectroot)/some/sub/dir cleaner
+        if [[ $has_moved == 1 ]]; then
+            echo -n '/'
+        fi
+        echo -n '..'
+        cd ..
+        has_moved=1
+    done
+    if [[ $(pwd) == $curdir ]]; then
+        echo -n '.'
+    fi
+    cd $curdir
+}
+
+## generic traversal
+d() {
     if [[ -n $1 ]]
     then
         dirs "$@"
@@ -120,4 +111,4 @@ d () {
 }
 
 for index ({1..9}) alias "$index"="cd -${index}"; unset index
-PATH="$PATH:/home/kenzo/Desktop/tools:~/.local/bin"
+PATH="$PATH:~/tools:~/.local/bin"

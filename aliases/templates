@@ -1,0 +1,66 @@
+#!/usr/bin/zsh
+
+setuptemplates(){
+    if ! mv_projectroot; then
+        return
+    fi
+    # rm -rf does not follow simlinks
+    rm -rf ./.vscode
+    rm -rf ./.fttemplates
+
+    # static vsc files/empty dirs
+    cp -r "$HOME/vsc_config/vscode" ./.vscode
+    mkdir ./.fttemplates
+    cp -r "$HOME/vsc_config/templates" ./.vscode/templates
+
+    # versioned files
+    setup_versioned $1
+}
+
+setup_versioned(){
+    if [[ $1 != '' ]]; then
+        read_version=$1
+    else
+        echo "version:"
+        read read_version
+    fi
+    if [[ $read_version -eq '' ]]; then
+        echo "no version to set up"
+        return
+    fi
+    versions=('global' "$read_version")
+    for version in $versions; do
+        setuptemplates_versioned_snippet $version
+        setuptemplates_versioned_fttemplates $version
+    done
+}
+
+setuptemplates_versioned_fttemplates() {
+    VERSIONED_DIR="$HOME/vsc_config/fttemplates"
+    if [[ -d "$VERSIONED_DIR/$version" ]]; then
+        echo "setting up templates version '$version'"
+        for file in $VERSIONED_DIR/$version/*; do
+            base=$(basename $file)
+            if [[ "$base" == '*' ]]; then; continue; fi
+            # fttemplates does not like simlinked directories
+            cp -r $file "./.fttemplates/$base"
+        done
+    else
+        echo "version '$version' not found"
+    fi
+}
+
+setuptemplates_versioned_snippet(){
+    VERSIONED_DIR="$HOME/vsc_config/snippets"
+    if [[ -d "$VERSIONED_DIR/$version" ]]; then
+        echo "setting up snippets version '$version'"
+        for file in $VERSIONED_DIR/$version/*; do
+            base=$(basename $file)
+            if [[ "$base" == '*' ]]; then; continue; fi
+            ln -s "$file" ./.vscode/$base
+        done
+    else
+        echo "version '$version' not found"
+    fi
+}
+
