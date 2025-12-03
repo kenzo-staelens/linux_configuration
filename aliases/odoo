@@ -9,7 +9,7 @@ cleandocker(){
     for i in {15..18}; do
     docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | grep registry) 2> /dev/null
     done
-    docker system prune -f
+    docker system prune -f --volume --all
 }
 
 cleanup(){
@@ -37,7 +37,6 @@ newproject(){
     mark_projectroot
     echo "Setting up project"
     projectsetup --init "$2"
-    bootstrap_configs
     echo "Getting latest database"
     dbrestore --drop --s3
     echo "Bootstrapping custom templates"

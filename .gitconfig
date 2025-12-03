@@ -18,6 +18,7 @@
     rc = "!git add . && git -c core.editor=true rebase --continue"
     gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
     graph = "log --all --decorate --oneline --graph"
+    edit = "!f() {git rebase -i $1^}"
 [push]
     autosetupremote = False
 [pull]

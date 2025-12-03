@@ -90,4 +90,16 @@
         "black",
         "black"
     ],
+    "biome.lsp.trace.server": "messages",
+    "biome.requireConfiguration": true,
+    "ty.path": [
+        "/usr/local/bin/ty"
+    ],
+    "python.autoComplete.extraPaths": [],
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "ty.interpreter": [
+        "/usr/bin/python3"
+    ],
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "python.languageServer": "Pylance",
 }
