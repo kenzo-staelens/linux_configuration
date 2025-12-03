@@ -81,6 +81,6 @@ done < "$CONFIG_ROOT/vsc_extensions.txt"
 cd "$HOME/Code/User"
 unlink settings.json || true
 rm settings.json || true
-ln -s "$CONFIG_ROOT/vsc_config/settings.json"
+ln -s "$CONFIG_ROOT/vsc_config/vscode/settings.json"
 
 cd "$HOME" ln -s "$CONFIG_ROOT/vsc_config"

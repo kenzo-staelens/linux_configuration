@@ -8,3 +8,10 @@ mirroraudio(){
     pactl set-default-sink reverse-stereo
 }
 
+update_discord(){
+    TEMP_DEB="$(mktemp)" &&
+    curl -L -o "$TEMP_DEB" 'https://discord.com/api/download/stable?platform=linux&format=deb' &&
+    sudo apt install "$TEMP_DEB"
+    mv $TEMP_DEB "/tmp/discord.deb"
+    rm -f "/tmp/discord.deb"
+}
