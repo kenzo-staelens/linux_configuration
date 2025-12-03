@@ -1,0 +1,61 @@
+#!/usr/bin/bash
+
+# -----> Terminal escape codes for markup
+
+. $HOME/tools/mselect.sh
+
+modules=(
+    $(git status --porcelain | awk -F'/' '{ print $1 }' | awk '{ print $2 }' | uniq)
+)
+
+actions=(
+    'DEV'
+    'ADD'
+    'FIX'
+    'MIG'
+    'DEL'
+    'ADM'
+    'WIP'
+)
+
+function create_module_message {
+    # -----> Repo selection prompt with best-guess preselection
+    local return_value=$1
+    local modulename=$2
+    echo "action for module ${modulename}"
+    # -----> Check
+    multiselect result actions
+    msg="[${actions[$result]}] ${modulename} - "
+    echo "commit message for ${modulename}: "
+    read commit_msg
+    echo ""
+    eval $return_value='("${msg}${commit_msg^}")'
+}
+
+function commit_many {
+    echo "type:"
+    multiselect result actions
+    echo "commit message:"
+    read commit_msg
+    for modulename in "${modules[@]}"; do
+        msg="[${actions[$result]}] $modulename - ${commit_msg^}"
+        git add $modulename && git commit -m "$msg"
+    done
+    return 0
+}
+
+function commit_single {
+    for module in "${modules[@]}"; do
+        create_module_message result $module
+        git add $module && git commit -m "$result"
+    done
+    return 0
+}
+
+if [[ $* == *--many* ]]
+then
+    commit_many
+else
+    commit_single
+fi
+

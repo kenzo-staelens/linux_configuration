@@ -3,18 +3,17 @@
 alias rundb="psql -h db -U postgres"
 alias rundebug="runserver --debugpy --debugpy-wait-for-attach"
 alias dlbackup="rm backup.zip; curl -o backup.zip"
-alias restorezip="dbrestore --drop --zip $(projectroot)/backup.zip"
 
 cleandocker(){
-    for i in {15..18}; do
-    docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | grep registry) 2> /dev/null
+    for i in {13..18}; do
+        docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | grep registry) 2> /dev/null
     done
-    docker system prune -f
+    docker system prune -f --volumes --all
 }
 
 cleanup(){
     curdir=$(pwd)
-    if ! mv_projectroot; then
+    if [[ ! mv_projectroot ]]; then
         cleandocker
         cd $curdir
         return
@@ -37,11 +36,11 @@ newproject(){
     mark_projectroot
     echo "Setting up project"
     projectsetup --init "$2"
-    bootstrap_configs
     echo "Getting latest database"
     dbrestore --drop --s3
     echo "Bootstrapping custom templates"
     setuptemplates
+    bootstrap_configs
 }
 
 resetserver(){
@@ -77,10 +76,23 @@ link(){
     # our system requires relative symlinks
     gitroot=$(basename $(git rev-parse --show-toplevel))
     if mv_projectroot; then
-        cd addons-extra
-        ln -s "../repos/$gitroot/$1"
+        proot=$(pwd)
+        for item in $@; do
+            cd addons-extra
+            ln -s "../repos/$gitroot/$item" || true
+            cd $proot
+        done
     fi
     cd $curdir
+}
+
+mkbranch(){
+    gitsetbases
+    echo "version:"
+    read version
+    echo "name:"
+    read name
+    git checout -b "$version-T00000-name"
 }
 
 bump(){

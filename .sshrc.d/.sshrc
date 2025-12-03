@@ -1,20 +1,38 @@
 #!/usr/bin/bash
 # source /tmp/.bashrc_kenzo.d/.zshrc
-cat /run/motd.dynamic
+cat /run/motd.dynamic || true
 
 cd /srv
 
+alias splash="cat /run/motd.dynamic || true"
 alias cls="clear"
 alias dfind="docker ps -a | grep"
 alias l="ls"
 alias la="ls -a"
 alias lgrep="ls | grep"
+alias psql="docker exec -it -u postgres db /bin/psql"
+alias dname='docker ps -a | grep Up | grep $(pwd | grep -Po "(?<=/odoo-).+")'
+alias dhash='docker ps -a | grep Up | grep $(pwd | grep -Po "(?<=/odoo-).+") | grep -Po "^\w+"'
+alias printaliases="alias && typeset -F"
+alias cleandocker="docker system prune -f --volumes --all"
+
+
+function multigrep() {
+    read in
+    for item in $@; do
+        in=$(echo $in | tr ' ' '\n' | grep $item)
+    done
+    # return value
+    echo $in
+}
 
 function cdg() {
-    if [[ $(ls | grep $@ | wc -l) -eq 1 ]]; then
-        cd $(ls | grep $@)
+    # filter
+    grepped=$(echo $(ls) | multigrep $@)
+    if [[ $(echo $grepped | tr -d '\n' | tr ' ' '\n' |  wc -l) -eq 1 ]]; then
+        cd $(echo $grepped | tr ' ' '\n')
     else
-        printf '%s\n' $(ls | grep $@)
+        echo $grepped | tr ' ' '\n'
     fi
 }
 
@@ -33,9 +51,43 @@ function dpostdb(){
     runserver -R
 }
 
+dkillcon() {
+    if [[ -f 'odoo.conf' ]]
+    then
+        DB=$(grep -Po '(?<=db_name = )(.*)' odoo.conf)
+        CMD="SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '$DB';"
+        echo $CMD
+        docker exec -it -u postgres db /bin/psql -c "$CMD"
+    fi
+}
+
 function drm() {
     docker ps -a | grep $1 | grep Exited | grep -Eo "^\w+" | xargs docker container rm
 }
+
+function denter() {
+    # enter container with more tools
+    copy_files=(
+        "/usr/bin/vim.basic"
+        "/lib/x86_64-linux-gnu/libgpm.so.2"
+    )
+    copy_to=(
+        "/usr/bin/vim"
+        "/lib/x86_64-linux-gnu/libgpm.so.2"
+    )
+    if [[ $# -eq 0 ]];
+    then
+        container=$(dhash)
+    else
+        container=$1
+    fi
+    for i in ${!copy_files[@]}; do
+        docker cp ${copy_files[i]} "$container:${copy_to[i]}"
+    done
+    docker exec -it $container /bin/bash
+}
+
 # redefined to show up in "alias" output
 alias drm="drm"
 alias rundanger="runserver --danger_skip_database_disarming_test"
+alias dkillcon="dkillcon"

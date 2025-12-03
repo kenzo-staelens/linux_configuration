@@ -3,10 +3,12 @@
 alias cls=clear
 alias python='python3'
 alias checklist="$HOME/tools/checklist.sh"
-alias autocommit="$HOME/tools/commit_tools.sh"
+alias autocommit="$HOME/tools/autocommit.py"
+alias new_autocommit="$HOME/tools/new_autocommit.sh"
 alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
 alias shutdown='sudo shutdown now;'
 alias ruffix='ruff check . --fix --unsafe-fixes --fixable=ALL'
+alias lh='ls -lh'
 
 clipfile(){
     cat $1 | xclip -selection clipboard

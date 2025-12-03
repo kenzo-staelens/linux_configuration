@@ -3,3 +3,6 @@
     name = Kenzo Staelens
 [alias]
     modlist = "!git status --porcelain | awk -F'/' '{ print $1 }' | awk '{ print $2 }' | uniq"
+    difflist = "!git diff HEAD^ HEAD --name-only | grep -Po '^\\w+(?=\\/)' | uniq"
+    cherry = "!f() {git cherry-pick $(!diff <(git log --oneline $2 | grep -Po '(?=.+\\[\\w{3}\\])^\\w+') <(git line $1 | grep -Po '(?=.+\\[\\w{3}\\])^\\w+') | grep -Po '(?<=> )\\w+' | tr '\\n' ' ')}; f"
+    task="!f(){ git rev-parse --abbrev-ref HEAD | grep -Po '(?<=\\d{2}\\.\\d-(?:T|H))(\\d{5})' | tr -d '\n' | xclip     -selection clipboard; xclip -o -selection clipboard; }; f"

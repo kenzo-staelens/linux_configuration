@@ -7,20 +7,6 @@ NORMAL=$(tput sgr0)
 BOLD=$(tput bold)
 BRIGHT=$(tput bold)
 
-modules=(
-    $(git status --porcelain | awk -F'/' '{ print $1 }' | awk '{ print $2 }' | uniq)
-)
-
-actions=(
-    'DEV'
-    'ADD'
-    'FIX'
-    'MIG'
-    'DEL'
-    'ADM'
-    'WIP'
-)
-
 # -----> Overly complex pure-bash multiselect function...
 function multiselect {
     # helpers for terminal print control and key input
@@ -108,22 +94,3 @@ function multiselect {
 
     eval $return_value='("${active}")'
 }
-
-function docommit {
-    # -----> Repo selection prompt with best-guess preselection
-    local return_value=$1
-    local modulename=$2
-    echo "action for module ${modulename}"
-    # -----> Check
-    multiselect result actions
-    msg="[${actions[$result]}] ${modulename} - "
-    echo "commit message for ${modulename}: "
-    read commit_msg
-    echo ""
-    eval $return_value='("${msg}${commit_msg^}")'
-}
-
-for module in "${modules[@]}"; do
-    docommit result $module
-    git add $module && git commit -m "$result"
-done

@@ -8,3 +8,7 @@ db_admin_database=postgres
 db_admin_user=admin
 devel_mode=True
 data_subdir=data
+[vscode]
+skip_vscode_settings=True
+skip_vscode_launch=True
+skip_bootstrap=True

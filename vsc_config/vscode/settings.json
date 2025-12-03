@@ -1,7 +1,119 @@
 {
-    "python.analysis.extraPaths": [
-        "./odoo"
+    "terminal.integrated.stickyScroll.enabled": false,
+    "emmet.showSuggestionsAsSnippets": true,
+    "editor.tabCompletion": "on",
+    "editor.quickSuggestions":{
+        "other": "on",
+        "comments": "on",
+        "strings": "on"
+    },
+    "[snippets]": {
+        "editor.tabCompletion": "on",
+        "editor.quickSuggestions":{
+            "other": "on",
+            "comments": "on",
+            "strings": "on"
+        }
+    },
+    "[markdown]": {
+        "editor.tabCompletion": "on",
+        "editor.quickSuggestions":{
+            "other": "on",
+            "comments": "on",
+            "strings": "on"
+        }
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "emmet.useInlineCompletions": true,
+    "todo-tree.highlights.useColourScheme": true,
+    "python.analysis.supportDocstringTemplate": true,
+    "autoDocstring.docstringFormat": "sphinx",
+    "editor.rulers": [
+        88, 120
     ],
-    "python.languageServer": "None",
-}
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "emmet.extensionsPath": [
+        "/home/kenzo/Desktop/linux_configuration/vsc_config"
+    ],
+    "workbench.settings.applyToAllProfiles": [
+        "emmet.extensionsPath",
+        "todo-tree.highlights.foregroundColourScheme"
+    ],
+    "editor.tokenColorCustomizations":{
+        "[Default Dark+]": {
+            "textMateRules": [
+                {
+                    "scope": "variable.other.readwrite",
+                    "settings": {
+                        "foreground": "#eb4e7d"
+                    }
+                }
+            ]
+        }
 
+    },
+    "editor.semanticHighlighting.enabled": true,
+    "workbench.colorTheme": "Default Dark+",
+    "emmet.includeLanguages": {
+        "python": "python",
+    },
+    "svg.preview.mode": "svg",
+    "todo-tree.highlights.backgroundColourScheme": [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "violet",
+        "cyan"
+    ],
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "CHANGED"
+    ],
+    "todo-tree.highlights.foregroundColourScheme": [
+        "white",
+        "black",
+        "black",
+        "white",
+        "white",
+        "white",
+        "black",
+        "black"
+    ],
+    "biome.lsp.trace.server": "messages",
+    "biome.requireConfiguration": true,
+    "ty.path": [
+        "/usr/local/bin/ty"
+    ],
+    "python.autoComplete.extraPaths": [
+        "odoo",
+        "./odoo/addons"
+    ],
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "ty.interpreter": [
+        "/usr/bin/python3"
+    ],
+    "python.languageServer": "Pylance",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/i18n/": true,
+      ".ruff_cache/": true,
+      "data/": true,
+      "tmp/": true
+    }
+}
