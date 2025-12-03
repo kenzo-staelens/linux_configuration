@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data noupdate="0">
+    <template id="report_{{nameSnake}}">
+
+    </template>
+
+    <template id="report_{{nameSnake}}_external">
+      <t t-call="web.html_container">
+        <t t-call="web.basic_layout">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="[[MODULE]].report_{{nameSnake}}"/>
+          </t>
+        </t>
+      </t>
+    </template>
+
+  </data>
+</odoo>
+

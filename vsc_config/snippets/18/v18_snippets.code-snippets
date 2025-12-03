@@ -13,5 +13,18 @@
       "- ${0:Changes}",
       ""
     ]
+  },
+
+  "odoo warning": {
+    "scope": "python",
+    "prefix": "owarn",
+    "body": [
+        "return {'warning': {",
+        "    'title': (\"Warning for %s\") % partner.name,",
+        "    'message': partner.$1_warn_msg",
+        "}}",
+        "$0"
+
+    ]
   }
 }

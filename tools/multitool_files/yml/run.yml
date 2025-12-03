@@ -1,0 +1,48 @@
+run_odoo_port: &run_odoo_port
+  !arg
+  name:
+    - -p
+    - --port
+  help:
+    odoo port to run, autoincrements from 8069
+
+
+root_run:
+  name: run
+  parent: root
+  help: command utility to run containers
+  script: run
+  args:
+    - *run_odoo_port
+
+root_run_dev:
+  name: dev
+  default: true
+  parent: root_run
+  help: run dev mode
+  script: run_script
+
+root_run_debug:
+  name: debug
+  parent: root_run
+  help: run debug mode
+  script: run_script
+
+root_run_py:
+  name: odoo
+  parent: root_run
+  help: run odoo terminal mode
+  script: run_script
+
+root_run_shell:
+  name: shell
+  parent: root_run
+  help: run shell mode
+  script: run_script
+
+root_run_sql:
+  name: sql
+  parent: root_run
+  help: run psql mode
+  script: run_script
+

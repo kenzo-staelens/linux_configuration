@@ -11,13 +11,15 @@
     dh = diff HEAD
     leave = !git add . && git commit -m '[WIP]' -n && git push
     amend = !git add . && git commit --amend --no-edit && git push --force
+    amendn = !git add . && git commit --amend --no-edit -n && git push --force
     pushsetup = !git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
     get = "!git fetch && git checkout $1 && git pull #"
     transfer = "!git add . && git stash && git get $1 && git stash pop #"
     rb = "!$SHELL -c \"source ~/zsh/alias/base && startrebase $@\""
     rc = "!git add . && git -c core.editor=true rebase --continue"
-    gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
+    gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f || true"
     graph = "log --all --decorate --oneline --graph"
+    edit = "!f() { git rebase -i $1^; }; f"
 [push]
     autosetupremote = False
 [pull]

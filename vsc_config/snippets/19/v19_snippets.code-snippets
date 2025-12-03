@@ -13,5 +13,21 @@
       "- ${0:Changes}",
       ""
     ]
+  },
+
+  "changelog migration": {
+    "scope": "markdown",
+    "prefix": "clmig",
+    "body": [
+        "",
+        "## 19.0.1.0.0 - $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+        "",
+        "> T${1:00000}",
+        "",
+        "### Changed",
+        "",
+        "- Migrated to v19",
+        "$0",
+    ]
   }
 }

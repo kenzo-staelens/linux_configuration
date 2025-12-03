@@ -8,3 +8,31 @@ mirroraudio(){
     pactl set-default-sink reverse-stereo
 }
 
+update_discord(){
+    TEMP_DEB="$(mktemp)" &&
+    curl -L -o "$TEMP_DEB" 'https://discord.com/api/download/stable?platform=linux&format=deb' &&
+    sudo apt install "$TEMP_DEB"
+    mv $TEMP_DEB "/tmp/discord.deb"
+    rm -f "/tmp/discord.deb"
+}
+
+function denter() {
+    # enter container with more tools
+    sshrc=$(readlink "$HOME/.sshrc.d")
+    copy_files=(
+        "/usr/bin/vim.basic"
+        "/lib/x86_64-linux-gnu/libgpm.so.2"
+        "$sshrc/.sshrc"
+    )
+    copy_to=(
+        "/usr/bin/vim"
+        "/lib/x86_64-linux-gnu/libgpm.so.2"
+        "/.sshrc"
+    )
+    container=$1
+    for i in {1..$#copy_files}; do
+        docker cp ${copy_files[i]} "$container:${copy_to[i]}"
+    done
+    docker exec -it $container /bin/bash --rcfile /.sshrc
+}
+
