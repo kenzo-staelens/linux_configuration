@@ -28,7 +28,7 @@ root_run_debug:
   help: run debug mode
   script: run_script
 
-root_run_py:
+root_run_odoo:
   name: odoo
   parent: root_run
   help: run odoo terminal mode

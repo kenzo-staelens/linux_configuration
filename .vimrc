@@ -1,8 +1,4 @@
-set number
-set list
-set tabstop=4
-set shiftwidth=4
-set expandtab
+set number nolist tabstop=4 shiftwidth=4 expandtab
 highlight LineTooLong ctermbg=red guibg=red
 highlight ExtraWhitespace ctermbg=red guibg=red
 call matchadd("ExtraWhitespace",'\s\+$')

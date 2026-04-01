@@ -5,9 +5,10 @@ import os
 
 SHELL_MAPPING= {
     'sql': '--shell=sql',
-    'bash': '--shell=bash',
+    'shell': '--shell=bash',
     'odoo': '--shell=odoo',
-    'debug': '--debugpy --debugpy-wait-for-attach'
+    'debug': '--debugpy --debugpy-wait-for-attach',
+    'dev': ''
 }
 
 def run(args: Namespace, ctx: dict[str, Any]):
