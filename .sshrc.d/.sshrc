@@ -1,8 +1,5 @@
 #!/usr/bin/bash
 # source /tmp/.bashrc_kenzo.d/.zshrc
-cat /run/motd.dynamic || true
-
-cd /srv
 
 alias splash="cat /run/motd.dynamic || true"
 alias cls="clear"
@@ -91,7 +88,19 @@ function denter() {
     docker exec -it $container /bin/bash
 }
 
+function dsort() {
+    docker ps --format "table {{.CreatedAt}}\t{{.Names}}\t{{.Status}}\t{{.Image}}" | 
+    (read -r header && echo "$header" && sort)
+}
+
+dlogs(){
+    docker logs -f $(dhash)
+}
+
 # redefined to show up in "alias" output
 alias drm="drm"
 alias rundanger="runserver --danger_skip_database_disarming_test"
 alias dkillcon="dkillcon"
+
+splash
+cd /srv

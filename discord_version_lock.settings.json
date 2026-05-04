@@ -1,0 +1,20 @@
+{
+  "BACKGROUND_COLOR": "#2c2d32",
+  "offloadAdmControls": true,
+  "enableHardwareAcceleration": true,
+  "chromiumSwitches": {},
+  "IS_MAXIMIZED": false,
+  "IS_MINIMIZED": false,
+  "WINDOW_BOUNDS": {
+    "x": 373,
+    "y": 1673,
+    "width": 1280,
+    "height": 720
+  },
+  "asyncVideoInputDeviceInit": false,
+  "DANGEROUS_ENABLE_DEVTOOLS_ONLY_ENABLE_IF_YOU_KNOW_WHAT_YOURE_DOING": true,
+  "enableLibOpenH264Electron": false,
+  "openH264Enabled": true,
+  "_comment": "below here is custom",
+  "SKIP_HOST_UPDATE": true
+}

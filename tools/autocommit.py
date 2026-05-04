@@ -24,6 +24,8 @@ DEFAULT_MESSAGES = {
     'WIP': '',
 }
 
+DEBUG_TAG = "\x1b[1m\x1b[96m[DEBUG]\x1b[0m"
+
 parser = ArgumentParser(prog='Autocommit', formatter_class=RawTextHelpFormatter)
 parser.add_argument('--many', help='Whether to add multiple modules to a single commit', action='store_true')
 
@@ -53,6 +55,7 @@ parser.add_argument('-p', '--push', help='git push the changes', action='store_t
 parser.add_argument('-f', '--force', help='enable force pushing', action='store_true')
 parser.add_argument('-s', '--setup', help='setup a non existing branch', action='store_true')
 parser.add_argument('-n', '--no-hooks', help='adds \'-n\' to commits', action='store_true')
+parser.add_argument('-v', '--verbose', help='add debug output', action='store_true')
 
 argcomplete.autocomplete(parser)
 
@@ -84,15 +87,21 @@ def parse(target, n_commits):
         if m.group(1)== target or i == n_commits:
             break
         matched.append(m.groups())
+    if args.verbose:
+        print(f"{DEBUG_TAG} found modules to revert: {matched}")
     return matched
 
 matched = []
 if args.base:
     matched = parse(args.base, None)
+    if args.verbose:
+        print(f'{DEBUG_TAG} running: git reset {args.base}')
     os.system(f'git reset {args.base}')
 
 if args.based:
     matched = parse(None, int(args.based))
+    if args.verbose:
+        print(f'{DEBUG_TAG} running: git reset HEAD~{args.based}')
     os.system(f'git reset HEAD~{args.based}')
 
 
@@ -124,6 +133,8 @@ def get_message(args, module, mode):
     if not message:
         print('\x1b[31m\x1b[1mNo message selected\x1b[0m')
         sys.exit()
+    if args.verbose:
+        print(f"{DEBUG_TAG} set commit message: {message}")
     return message
 
 def get_modules(args):
@@ -131,6 +142,8 @@ def get_modules(args):
     res = os.popen(cmd).read()
     files = res.split('\n')[:-1] # remove empty strings
     files = [file for file in files if file not in args.exclude]
+    if args.verbose:
+        print(f"{DEBUG_TAG} found modules to commit: {files}")
     return files
 
 def run_commit(args, module, message):
@@ -138,10 +151,15 @@ def run_commit(args, module, message):
     commit = f'git commit -m "{message}"' 
     if args.no_hooks:
         commit+= ' -n'
+    if args.verbose:
+        print(f"{DEBUG_TAG} running command: {commit}")
     os.system(commit)
 
 def get_git_branch():
-    return os.popen('git rev-parse --abbrev-ref HEAD').read().strip()
+    branch = os.popen('git rev-parse --abbrev-ref HEAD').read().strip()
+    if args.verbose:
+        print(f"{DEBUG_TAG} found branch: {branch}")
+    return branch
 
 # reconstruct from old commits
 for _, mode, module, message in matched:

@@ -1,0 +1,2 @@
+#!/usr/bin/zsh
+alias ansi-run="ansible-playbook -vv --vault-pass-file ~/.vault_pass -i inventory"

@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-bash <(curl -sSL https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/main/spotx.sh) --installdeb -f 
+bash <(curl -sSL https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/main/spotx.sh) --installdeb -f -c --stable 

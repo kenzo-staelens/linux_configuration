@@ -42,7 +42,7 @@
         "todo-tree.highlights.foregroundColourScheme"
     ],
     "editor.tokenColorCustomizations":{
-        "[Default Dark+]": {
+        "[Dark+]": {
             "textMateRules": [
                 {
                     "scope": "variable.other.readwrite",
@@ -55,7 +55,7 @@
 
     },
     "editor.semanticHighlighting.enabled": true,
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "Dark+",
     "emmet.includeLanguages": {
         "python": "python",
     },
@@ -141,5 +141,5 @@
         "*.db3": "${capture}.${extname}-*",
         "*.sdb": "${capture}.${extname}-*",
         "*.s3db": "${capture}.${extname}-*"
-    }
+    },
 }
