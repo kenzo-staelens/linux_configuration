@@ -60,7 +60,6 @@ parser.add_argument('-v', '--verbose', help='add debug output', action='store_tr
 argcomplete.autocomplete(parser)
 
 args = parser.parse_args()
-
 for mode in MODES:
     if getattr(args, mode.lower()):
         args.mode = mode
@@ -83,7 +82,7 @@ def parse(target, n_commits):
         if (match_hash and match_hash.group(1) == target) or i == n_commits:
             break
         if not m:
-            continue    
+            continue
         if m.group(1)== target or i == n_commits:
             break
         matched.append(m.groups())
@@ -99,10 +98,16 @@ if args.base:
     os.system(f'git reset {args.base}')
 
 if args.based:
-    matched = parse(None, int(args.based))
+    if args.based == 'HEAD':
+        HEAD_HASH = os.popen('git rev-parse origin/HEAD').read().strip()[:7]
+        matched = parse(HEAD_HASH, none)
+        cmd = 'git reset origin/HEAD'
+    else:
+        matched = parse(None, int(args.based))
+        cmd = f'git reset HEAD~{args.based}'
     if args.verbose:
-        print(f'{DEBUG_TAG} running: git reset HEAD~{args.based}')
-    os.system(f'git reset HEAD~{args.based}')
+        print(f'{DEBUG_TAG} running: {cmd}')
+    os.system(cmd)
 
 
 def get_mode(args, extra_title=None):

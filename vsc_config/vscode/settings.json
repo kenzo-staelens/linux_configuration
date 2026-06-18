@@ -51,8 +51,7 @@
                     }
                 }
             ]
-        }
-
+        },
     },
     "editor.semanticHighlighting.enabled": true,
     "workbench.colorTheme": "Dark+",
@@ -141,5 +140,11 @@
         "*.db3": "${capture}.${extname}-*",
         "*.sdb": "${capture}.${extname}-*",
         "*.s3db": "${capture}.${extname}-*"
+    },
+    "ansibleVaultInline.keyfile": "/home/kenzo/.vault_pass",
+    "vs-kubernetes": {
+        "vs-kubernetes.crd-code-completion": "disabled",
+        "vscode-kubernetes.helm-path-linux": "/home/kenzo/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
+        "vscode-kubernetes.minikube-path-linux": "/home/kenzo/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube"
     },
 }

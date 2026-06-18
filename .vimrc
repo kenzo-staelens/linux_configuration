@@ -23,3 +23,4 @@ augroup END
 autocmd FileType zsh execute 'set syntax=bash'
 autocmd BufRead,BufNewFile .gitconfig* set syntax=gitconfig
 autocmd BufRead,BufNewFile .odoorc* set syntax=dosini
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!

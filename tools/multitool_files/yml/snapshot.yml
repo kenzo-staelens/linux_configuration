@@ -10,7 +10,7 @@ snapshot_arg_s3: &snapshot_arg_s3
   name:
     - --s3
   action: store_true
-  help: Upload to s3
+  help: Upload to or Download from s3
 
 snapshot_file_save: &snapshot_file_save
   !arg
@@ -27,7 +27,7 @@ snapshot_file_load: &snapshot_file_load
     - -f
     - --filename
   help:
-    File to restore from (default s3)
+    File to restore from (default "backup.zip", default if not s3)
 
 root_snapshot:
   name: snapshot
@@ -49,3 +49,4 @@ root_snapshot_restore:
   script: snapshot_restore
   args:
     - *snapshot_file_load
+    - *snapshot_arg_s3

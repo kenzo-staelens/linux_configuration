@@ -8,9 +8,7 @@ alias rdb="rundebug"
 
 
 cleandocker(){
-    for i in {13..18}; do
-        docker rmi $(docker image list "registry.gitlab.com/apertoso/docker/odoo/odoo${i}e" | awk '{print $1":"$2}' | grep registry) 2> /dev/null
-    done
+    docker rmi $(docker image list --format "{{.Repository}}:{{.ID}}" | grep registry | grep odoo/odoo) 2> /dev/null
     docker system prune -f --volumes --all
 }
 
@@ -49,7 +47,6 @@ newproject(){
 resetserver(){
     projectsetup -R
     projectsetup --update-all
-    sleep 1
     if [ "$#" -eq 1 ]; then
         echo "restoring from zip file"
         dbrestore --drop --zip $@
