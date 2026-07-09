@@ -100,3 +100,4 @@ bump(){
     sed -i "/installable/c\    'installable': False," */__manifest__.py
 }
 
+alias restorezip="dbrestore --drop --zip backup.zip"
