@@ -2,61 +2,38 @@ import argcomplete
 import yaml
 from .build_config import resolve_inheritance
 from multitool_lib.yaml_constructors import argument
-from .helper import dictWrap, Stack, parserdict, ParserContext, MyArgParser
+from .helper import dictWrap, MyArgParser
+from typing import Any
 
+def build_subparsers(base_parser: MyArgParser, parser_data: dict[str, Any]):
+    if parser_data.get('subparsers'):
+        grp = base_parser.add_subparsers(dest=parser_data['name'], title='subcommands')
+        last_default = None
+        for k, subcommand in parser_data['subparsers'].items():
+            subcommand_name = subcommand['name']
+            subcmd_help = subcommand.get('help')
+            subcmd = grp.add_parser(subcommand_name, help=subcmd_help)
+            for arg in subcommand.get('args', []):
+                arg.add_to_parser(subcmd)
+            if subcommand.get('default', False):
+                last_default = subcommand['name']
+            if subcommand.get('subparsers'):
+                build_subparsers(subcmd, subcommand)
+        if last_default:
+            base_parser.set_default_subparser(last_default)
+                
 
 def build_root_parser(config):
     yaml.SafeLoader.add_constructor(argument.Argument.yaml_tag, argument.Argument.from_yaml)
     data: dictWrap = dictWrap(yaml.load(config, Loader = yaml.SafeLoader))
-    resolve_inheritance(data)
+    resolved = resolve_inheritance(data)
 
-    root_name = data['root']['name']
+    root_name = resolved['name']
     root_parser = MyArgParser(prog=root_name)
 
-    current_path = Stack()
-    current_path.push('root')
-    parsers: parserdict = {'root': root_parser}
+    for arg in resolved.get('args', []) or []:
+        arg.add_to_parser(root_parser)
 
-    def get_current_parser_ctx() -> tuple[MyArgParser, ParserContext]:
-        current_name: str = current_path.pop()
-        current_parser: MyArgParser = parsers[current_name]
-
-        current_data: dictWrap = data.get_default(current_name)
-        subcmd_args: list[argument.Argument] = current_data.get_default('args', [])
-        subcmd_subparsers: list[str] = current_data.get_default('subparsers', [])
-        subcmd_name: list[str] = current_data.get_default('name', current_name)
-
-        return (
-            current_parser,
-            {
-                'id':current_name,
-                'name': subcmd_name,
-                'args': subcmd_args,
-                'subparsers': subcmd_subparsers,
-            }
-        )
-
-    while current_path:
-        parser, parser_ctx = get_current_parser_ctx()
-        for arg in parser_ctx['args']:
-            arg.add_to_parser(parser)
-
-        if len(parser_ctx['subparsers']):
-            grp = parser.add_subparsers(dest=parser_ctx['name'], title='subcommands')
-            last_default = None
-            for subcommand in parser_ctx['subparsers']:
-                subcmd_name = data[subcommand]['name']
-                subcmd_help = data[subcommand].get('help')
-                subcmd = grp.add_parser(subcmd_name, help=subcmd_help)
-                if data[subcommand].get('default'):
-                    last_default = data[subcommand]['name']
-                parsers[subcommand] = subcmd 
-                current_path.push(subcommand)
-            # first add all arguments
-            # then attempt to set the default
-            # otherwise cases exist where parse_args will attempt to add the default
-            # when another is already selected (but not yet defined)
-            if last_default:
-                parser.set_default_subparser(last_default)
+    build_subparsers(root_parser, resolved)
     argcomplete.autocomplete(root_parser)
-    return root_parser, root_name, data
+    return root_parser, root_name, resolved

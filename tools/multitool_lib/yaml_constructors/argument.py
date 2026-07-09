@@ -13,6 +13,7 @@ class Argument(yaml.YAMLObject):
         help: str="", 
         action: str | None=None,
         required: bool=False,
+        default: str | None=None,
         completer: Any = None,
         **kw
     ):
@@ -20,6 +21,7 @@ class Argument(yaml.YAMLObject):
         self.help = help
         self.action= action
         self.required= required
+        self.default= default
         self.kw = kw
     
     def __repr__(self):

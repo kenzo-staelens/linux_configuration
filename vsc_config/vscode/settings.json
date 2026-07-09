@@ -147,4 +147,11 @@
         "vscode-kubernetes.helm-path-linux": "/home/kenzo/.local/state/vs-kubernetes/tools/helm/linux-amd64/helm",
         "vscode-kubernetes.minikube-path-linux": "/home/kenzo/.local/state/vs-kubernetes/tools/minikube/linux-amd64/minikube"
     },
+    "[xml]": {
+        "editor.defaultFormatter": "DotJoshJohnson.xml"
+    },
+    "python.analysis.extraPaths": [
+        "/usr/lib/python3/dist-packages/"
+    ],
+    "python.analysis.includeExtraPathSymbolsInSymbolSearch": true,
 }

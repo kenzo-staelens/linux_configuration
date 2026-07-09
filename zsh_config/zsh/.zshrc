@@ -37,3 +37,8 @@ fi
 
 # load system specific alias (vs aliases/system for generic)
 source $ZALIAS/.aliases
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+
+. "$HOME/.local/bin/env"

@@ -3,5 +3,5 @@
 from pathlib import Path
 from multitool_lib import run_from_manifest
 
-CONFIG_ROOT = Path(__file__).parent / 'multitool_files' /'yml'
+CONFIG_ROOT = Path(__file__).parent
 run_from_manifest(CONFIG_ROOT)

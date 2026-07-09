@@ -100,7 +100,7 @@ if args.base:
 if args.based:
     if args.based == 'HEAD':
         HEAD_HASH = os.popen('git rev-parse origin/HEAD').read().strip()[:7]
-        matched = parse(HEAD_HASH, none)
+        matched = parse(HEAD_HASH, None)
         cmd = 'git reset origin/HEAD'
     else:
         matched = parse(None, int(args.based))

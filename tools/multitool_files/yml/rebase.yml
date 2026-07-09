@@ -5,7 +5,7 @@ instance_reset_dbfile: &rebase_target
   help: target project to rebase
   required: true
 
-root_rebase:
+rebase:
   name: rebase
   parent: root
   help: command utility to automate changelog rebases

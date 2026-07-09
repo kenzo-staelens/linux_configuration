@@ -12,6 +12,12 @@ snapshot_arg_s3: &snapshot_arg_s3
   action: store_true
   help: Upload to or Download from s3
 
+snapshot_arg_dl: &snapshot_arg_dl
+  !arg
+  name:
+    - --dl
+  help: Download from link then restore
+
 snapshot_file_save: &snapshot_file_save
   !arg
   name:
@@ -28,25 +34,27 @@ snapshot_file_load: &snapshot_file_load
     - --filename
   help:
     File to restore from (default "backup.zip", default if not s3)
+  default: backup.zip
 
-root_snapshot:
+snapshot:
   name: snapshot
   parent: root
   help: create and restore from backups
 
-root_snapshot_create:
+snapshot_create:
   name: create
   script: snapshot_create
-  parent: root_snapshot
+  parent: snapshot
   args:
     - *snapshot_arg_zip
     - *snapshot_arg_s3
     - *snapshot_file_save
 
-root_snapshot_restore:
+snapshot_restore:
   name: restore
-  parent: root_snapshot
+  parent: snapshot
   script: snapshot_restore
   args:
     - *snapshot_file_load
     - *snapshot_arg_s3
+    - *snapshot_arg_dl
