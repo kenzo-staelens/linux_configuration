@@ -1,0 +1,3 @@
+root_instance_new:
+  name: new
+  parent: root_instance

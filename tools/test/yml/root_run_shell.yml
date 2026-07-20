@@ -1,0 +1,5 @@
+root_run_shell:
+  help: run shell mode
+  name: shell
+  parent: root_run
+  script: run_script

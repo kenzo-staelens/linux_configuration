@@ -1,0 +1,14 @@
+- yml/root.yml
+- yml/root_instance.yml
+- yml/root_instance_new.yml
+- yml/root_instance_reset.yml
+- yml/root_snapshot.yml
+- yml/root_snapshot_create.yml
+- yml/root_snapshot_restore.yml
+- yml/root_run.yml
+- yml/root_run_dev.yml
+- yml/root_run_debug.yml
+- yml/root_run_odoo.yml
+- yml/root_run_shell.yml
+- yml/root_run_sql.yml
+- yml/root_rebase.yml

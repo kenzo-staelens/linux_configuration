@@ -1,0 +1,18 @@
+root_snapshot_create:
+  args:
+  - action: store_true
+    help: Generate zip file
+    name:
+    - --zip
+  - action: store_true
+    help: Upload to or Download from s3
+    name:
+    - --s3
+  - default: backup.zip
+    help: File to store to (default backup.zip)
+    name:
+    - -f
+    - --filename
+  name: create
+  parent: root_snapshot
+  script: snapshot_create

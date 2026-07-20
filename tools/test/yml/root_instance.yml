@@ -1,0 +1,4 @@
+root_instance:
+  help: command utilities for instance data linked addons
+  name: instance
+  parent: root

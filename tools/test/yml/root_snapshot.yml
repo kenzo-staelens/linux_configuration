@@ -1,0 +1,4 @@
+root_snapshot:
+  help: create and restore from backups
+  name: snapshot
+  parent: root

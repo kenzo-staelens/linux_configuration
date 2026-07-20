@@ -1,0 +1,5 @@
+root_run_debug:
+  help: run debug mode
+  name: debug
+  parent: root_run
+  script: run_script

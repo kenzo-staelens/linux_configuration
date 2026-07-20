@@ -1,0 +1,23 @@
+test_arg:
+  load_ignore: True
+  conf: 
+  - &test_arg
+    default: backup.zip
+    help: File to restore from (default "backup.zip", default if not s3)
+    name:
+    - -f
+    - --filename
+
+root_snapshot_restore:
+  args:
+  - *test_arg
+  - action: store_true
+    help: Upload to or Download from s3
+    name:
+    - --s3
+  - help: Download from link then restore
+    name:
+    - --dl
+  name: restore
+  parent: root_snapshot
+  script: snapshot_restore

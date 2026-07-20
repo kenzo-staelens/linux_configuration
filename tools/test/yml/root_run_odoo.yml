@@ -1,0 +1,5 @@
+root_run_odoo:
+  help: run odoo terminal mode
+  name: odoo
+  parent: root_run
+  script: run_script

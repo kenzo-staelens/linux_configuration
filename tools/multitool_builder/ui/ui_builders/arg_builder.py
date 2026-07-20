@@ -4,7 +4,7 @@ from models import Argument
 class ArgumentBuilder(FieldBuilder):
     def build_argument_editor(self, arg: Argument):
         # Row 0: names + action (action may be None)
-        self._add_field(0, 0, "names", arg.names, self.on_arg_names_changed, arg)
+        self._add_field(0, 0, "names", arg.name, self.on_arg_names_changed, arg)
         self._add_field(0, 2, "action", arg.action, self.on_arg_action_changed, arg)
         # Row 1: help + required
         self._add_field(1, 0, "help", arg.help, self.on_arg_help_changed, arg)
@@ -19,7 +19,7 @@ class ArgumentBuilder(FieldBuilder):
         self.show_all()
 
     def on_arg_names_changed(self, entry, arg: Argument):
-        arg.names = entry.get_text()
+        arg.name = entry.get_text()
         arg.canonical_name = arg.compute_canonical()
         self.emit_property_changed(arg)
 

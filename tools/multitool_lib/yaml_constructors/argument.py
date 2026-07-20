@@ -17,7 +17,7 @@ class Argument(yaml.YAMLObject):
         completer: Any = None,
         **kw
     ):
-        self.names = name
+        self.name = name
         self.help = help
         self.action= action
         self.required= required
@@ -25,7 +25,7 @@ class Argument(yaml.YAMLObject):
         self.kw = kw
     
     def __repr__(self):
-        return 'Argument({})'.format(str(self.names))
+        return 'Argument({})'.format(str(self.name))
 
     @classmethod
     def from_yaml(cls, loader: yaml.Loader, node: yaml.MappingNode):
@@ -36,16 +36,18 @@ class Argument(yaml.YAMLObject):
     def to_yaml(cls, dumper: yaml.Dumper, obj: Self):
         return dumper.represent_mapping(
             cls.yaml_tag,
-            obj.names
+            obj.name
         )
 
     def add_to_parser(self, parser: argparse.ArgumentParser):
-        
         conditional_args = {}
-        if any(x.startswith('-') for x in self.names):
+        if any(x.startswith('-') for x in self.name):
             conditional_args['required']=self.required
+        if self.default:
+            conditional_args['default']=self.default
+
         parser.add_argument(
-            *self.names,
+            *self.name,
             help=self.help,
             action=self.action,
             **(self.kw | conditional_args)

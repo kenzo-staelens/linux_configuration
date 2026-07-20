@@ -1,0 +1,10 @@
+root_run:
+  args:
+  - help: odoo port to run, autoincrements from 8069
+    name:
+    - -p
+    - --port
+  help: command utility to run containers
+  name: run
+  parent: root
+  script: run

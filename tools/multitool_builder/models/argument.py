@@ -3,7 +3,7 @@ from typing import Any
 
 class Argument:
     def __init__(self, names=[], action="", help="", required=False, default=None):
-        self.names = ','.join(names)               # comma separated
+        self.name = ','.join(names)               # comma separated
         self.canonical_name = self.compute_canonical()  # computed property
         self.action = action
         self.help: str = help
@@ -11,13 +11,13 @@ class Argument:
         self.default = default
 
     def compute_canonical(self):
-        return self.names.split(",")[0].strip() if self.names else ""
+        return self.name.split(",")[0].strip() if self.name else ""
     
     @classmethod
     def from_config(cls, args):
         parser_args = [
             cls(
-                arg.names, 
+                arg.name, 
                 arg.action,
                 arg.help,
                 arg.required,
@@ -29,7 +29,7 @@ class Argument:
 
     def to_config(self):
         data: dict[str, Any] = {
-            'name': [x.strip() for x in self.names.split(',')]
+            'name': [x.strip() for x in self.name.split(',')]
         }
         if self.default:
             data['default'] = self.default

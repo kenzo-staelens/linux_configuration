@@ -1,0 +1,17 @@
+root_instance_reset:
+  args:
+  - default: all
+    help: update instance config, database or both. Default 'all'
+    name:
+    - --mode
+  - action: store_true
+    help: whether to source database locally
+    name:
+    - --local
+  - default: backup.zip
+    help: local database file to use, default 'backup.zip'
+    name:
+    - --dbfile
+  name: reset
+  parent: root_instance
+  script: instance_reset

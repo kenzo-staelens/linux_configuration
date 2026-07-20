@@ -1,0 +1,5 @@
+root_run_sql:
+  help: run psql mode
+  name: sql
+  parent: root_run
+  script: run_script

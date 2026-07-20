@@ -75,7 +75,7 @@ class CommandList(Gtk.ScrolledWindow):
             return
         # 1. Arguments first
         for arg in command.children_args:
-            self.store.append([arg.canonical_name, arg.names, arg, "argument"])
+            self.store.append([arg.canonical_name, arg.name, arg, "argument"])
         # 2. Subcommands
         for sub in command.children_subcommands:
             self.store.append([sub.name, "", sub, "subcommand"])
@@ -134,7 +134,7 @@ class CommandList(Gtk.ScrolledWindow):
                     row[1] = ""
                 elif isinstance(obj, Argument):
                     row[0] = obj.canonical_name
-                    row[1] = obj.names
+                    row[1] = obj.name
                 elif isinstance(obj, Script):
                     row[0] = obj.name
                     row[1] = "<script>"

@@ -1,0 +1,6 @@
+root_run_dev:
+  default: true
+  help: run dev mode
+  name: dev
+  parent: root_run
+  script: run_script
