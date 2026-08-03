@@ -1,9 +1,0 @@
-root_rebase:
-  args:
-  - help: target project to rebase
-    name:
-    - --target
-  help: command utility to automate changelog rebases
-  name: rebase
-  parent: root
-  script: autorb

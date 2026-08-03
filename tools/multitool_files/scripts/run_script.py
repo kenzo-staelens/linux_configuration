@@ -12,7 +12,7 @@ SHELL_MAPPING= {
 }
 
 def run(args: Namespace, ctx: dict[str, Any]):
-    extra_args = args.other_args
+    extra_args = ctx.get('other_args', [])
     extra_args.append(f'--docker-odoo-port {args.port}')
     if args.run in SHELL_MAPPING:
         extra_args.append(SHELL_MAPPING.get(args.run))

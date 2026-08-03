@@ -1,14 +1,10 @@
-instance_reset_dbfile: &rebase_target
-  !arg
-  name:
-    - --target
-  help: target project to rebase
-  required: true
-
 rebase:
   name: rebase
   parent: root
   help: command utility to automate changelog rebases
   script: autorb
   args:
-    - *rebase_target
+    - name:
+        - --target
+      help: target project to rebase
+      required: true

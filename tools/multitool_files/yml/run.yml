@@ -1,19 +1,13 @@
-run_odoo_port: &run_odoo_port
-  !arg
-  name:
-    - -p
-    - --port
-  help:
-    odoo port to run, autoincrements from 8069
-
-
 run:
   name: run
   parent: root
   help: command utility to run containers
   script: run
   args:
-    - *run_odoo_port
+    - name:
+        - -p
+        - --port
+      help: odoo port to run, autoincrements from 8069
 
 run_dev:
   name: dev

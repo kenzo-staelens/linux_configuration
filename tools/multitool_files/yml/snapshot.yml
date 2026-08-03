@@ -1,41 +1,3 @@
-snapshot_arg_zip: &snapshot_arg_zip
-  !arg
-  name:
-    - --zip
-  action: store_true
-  help: Generate zip file
-
-snapshot_arg_s3: &snapshot_arg_s3
-  !arg
-  name:
-    - --s3
-  action: store_true
-  help: Upload to or Download from s3
-
-snapshot_arg_dl: &snapshot_arg_dl
-  !arg
-  name:
-    - --dl
-  help: Download from link then restore
-
-snapshot_file_save: &snapshot_file_save
-  !arg
-  name:
-    - -f
-    - --filename
-  help:
-    File to store to (default backup.zip)
-  default: backup.zip
-
-snapshot_file_load: &snapshot_file_load
-  !arg
-  name:
-    - -f
-    - --filename
-  help:
-    File to restore from (default "backup.zip", default if not s3)
-  default: backup.zip
-
 snapshot:
   name: snapshot
   parent: root
@@ -46,15 +8,37 @@ snapshot_create:
   script: snapshot_create
   parent: snapshot
   args:
-    - *snapshot_arg_zip
-    - *snapshot_arg_s3
-    - *snapshot_file_save
+    - name:
+        - --zip
+      action: store_true
+      help: Generate zip file
+    - name:
+        - --s3
+      action: store_true
+      help: Upload to or Download from s3
+    - name:
+        - -f
+        - --filename
+      help:
+        File to store to (default backup.zip)
+      default: backup.zip
+
 
 snapshot_restore:
   name: restore
   parent: snapshot
   script: snapshot_restore
   args:
-    - *snapshot_file_load
-    - *snapshot_arg_s3
-    - *snapshot_arg_dl
+    - name:
+        - --dl
+      help: Download from link then restore
+    - name:
+        - --s3
+      action: store_true
+      help: Upload to or Download from s3
+    - name:
+        - -f
+        - --filename
+      help:
+        File to restore from (default "backup.zip", default if not s3)
+      default: backup.zip
