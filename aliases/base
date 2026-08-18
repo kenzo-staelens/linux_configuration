@@ -10,6 +10,7 @@ alias cyberchef='python3 -m webbrowser https://gchq.github.io/CyberChef/'
 alias shutdown='sudo shutdown now;'
 alias ruffix='ruff check . --fix --unsafe-fixes --fixable=ALL'
 alias lh='ls -lh'
+alias clip='xclip -selection clipboard'
 
 clipfile(){
     cat $1 | xclip -selection clipboard
