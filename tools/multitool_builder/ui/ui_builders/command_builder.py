@@ -2,7 +2,6 @@ from .field_builder import FieldBuilder
 from models import Command
 
 class CommandBuilder(FieldBuilder):
-
     def build_command_editor(self, cmd: Command):
         if getattr(cmd, 'is_root', False):
             self._build_root_command_editor(cmd)

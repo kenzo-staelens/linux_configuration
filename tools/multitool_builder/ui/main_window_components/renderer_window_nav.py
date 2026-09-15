@@ -1,10 +1,7 @@
 from gi.repository import Gtk, Gdk, Pango
-from models.command import Command
-from models.argument import Argument
-from models.script import Script
 
 
-class CommandList(Gtk.ScrolledWindow):
+class CommandListNav(Gtk.ScrolledWindow):
     def __init__(self, on_row_activated, on_item_deleted):
         super().__init__()
         self.on_row_activated = on_row_activated
@@ -48,43 +45,6 @@ class CommandList(Gtk.ScrolledWindow):
         self.treeview.connect("button-press-event", self.on_button_press)
         self.treeview.get_selection().connect("changed", self.on_selection_changed)
 
-    # ---------- Styling callbacks ----------
-    def name_data_func(self, column, cell, model, iter, data):
-        obj = model.get_value(iter, 2)
-        if isinstance(obj, Command):
-            cell.set_property("weight", Pango.Weight.BOLD)
-            cell.set_property("foreground", "blue")
-            cell.set_property("style", Pango.Style.NORMAL)
-        elif isinstance(obj, Argument):
-            cell.set_property("weight", Pango.Weight.BOLD)
-            cell.set_property("foreground", "green")
-            cell.set_property("style", Pango.Style.ITALIC)
-        elif isinstance(obj, Script):
-            cell.set_property("weight", Pango.Weight.BOLD)
-            cell.set_property("foreground", "gray")
-            cell.set_property("style", Pango.Style.NORMAL)
-
-    def detail_data_func(self, column, cell, model, iter, data):
-        # no extra styling required for detail column
-        pass
-
-    # ---------- Data population ----------
-    def populate(self, command):
-        self.store.clear()
-        if command is None:
-            return
-        # 1. Arguments first
-        for arg in command.children_args:
-            self.store.append([arg.canonical_name, arg.name, arg, "argument"])
-        # 2. Subcommands
-        for sub in command.children_subcommands:
-            self.store.append([sub.name, "", sub, "subcommand"])
-        # 3. Script (max one)
-        script = command.child_script
-        if script:
-            self.store.append([script.name, "<script>", script, "script"])
-        self.treeview.get_selection().unselect_all()
-
     # ---------- Event handlers ----------
     def on_tree_row_activated(self, treeview, path, column):
         tree_iter = self.store.get_iter(path)
@@ -124,25 +84,3 @@ class CommandList(Gtk.ScrolledWindow):
             toplevel.detail_editor.set_object(obj)
         elif hasattr(toplevel, 'detail_editor'):
             toplevel.detail_editor.clear()
-
-    # ---------- Real‑time update helper ----------
-    def update_object_row(self, obj):
-        for row in self.store:
-            if row[2] is obj:
-                if isinstance(obj, Command):
-                    row[0] = obj.name
-                    row[1] = ""
-                elif isinstance(obj, Argument):
-                    row[0] = obj.canonical_name
-                    row[1] = obj.name
-                elif isinstance(obj, Script):
-                    row[0] = obj.name
-                    row[1] = "<script>"
-                    row
-                return
-    
-    def update_script_object(self, old, obj):
-        for row in self.store:
-            if row[2] is old:
-                row[0] = obj.name
-                row[2] = obj

@@ -1,0 +1,15 @@
+migration:
+  name: migration
+  parent: root
+  help: migration commands collection
+
+migration_run:
+  name: run
+  parent: migration
+  help: run a migration
+  script: migration
+  args:
+    - name:
+      - --target
+      - -t
+      type: str

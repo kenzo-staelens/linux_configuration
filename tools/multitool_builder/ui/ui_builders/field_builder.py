@@ -1,5 +1,4 @@
 import gi
-gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GObject, Pango  # noqa: E402
 
 # Try to load GtkSourceView for syntax highlighting

@@ -17,7 +17,6 @@ def get_docker_ports_in_use():
 
     return ports_in_use
 
-
 def run(args: Namespace, ctx: dict[str, Any]):
     ports = get_docker_ports_in_use()
     ctx['ports_in_use'] = ports

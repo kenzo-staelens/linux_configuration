@@ -1,10 +1,12 @@
 from gi.repository import Gtk, Gio
-from .main_window_components import Breadcrumb, CommandList, DetailEditor
-from models import Command, Argument, Script, Property
+from .breadcrumb import Breadcrumb
+from .command_list import CommandList
+from .detail_editor import DetailEditor
+from models import Command, Argument, Property
 from pathlib import Path
 
 
-class MainWindow(Gtk.ApplicationWindow):
+class MainWindowNav(Gtk.ApplicationWindow):
     def __init__(self, loader, saver):
         super().__init__(title="Command Editor")
         self.loader = loader
@@ -133,50 +135,6 @@ class MainWindow(Gtk.ApplicationWindow):
     def _on_breadcrumb_clicked(self, cmd):
         self.current_command = cmd
         self._update_ui()
-
-    def _on_row_activated(self, obj):
-        if isinstance(obj, (Command, Argument)):
-            obj._ui_parent = self.current_command
-            self.current_command = obj
-            self._update_ui()
-
-    def _on_item_deleted(self, obj):
-        if isinstance(obj, Argument):
-            self.current_command.children_args.remove(obj)
-        elif isinstance(obj, Command):
-            self.current_command.children_subcommands.remove(obj)
-        elif isinstance(obj, Script):
-            self.current_command.child_script = None
-        elif isinstance(obj, Property):
-            self.current_command.properties.remove(obj)
-        self._update_ui()
-        self.detail_editor.clear()
-
-    def _on_property_changed(self, editor, obj):
-        self.command_list.update_object_row(obj)
-
-    def _on_property_changed_obj(self, editor, objs):
-        old, obj = objs
-        self.command_list.update_object_row_object(old, obj)
-
-    def _add(self, cls, kind):
-        if not self.current_command:
-            return
-        if kind == "sub":
-            cmd = Command(name="new_subcommand")
-            cmd._ui_parent = self.current_command
-            cmd.parent = self.current_command.internal_id
-            self.current_command.children_subcommands.append(cmd)
-        elif kind == "arg":
-            self.current_command.children_args.append(Argument(["--arg"]))
-        elif kind == "prop":
-            self.current_command.properties.append(Property('property'))
-        self._update_ui()
-
-    def _add_script(self):
-        if self.current_command and self.current_command.child_script is None:
-            self.current_command.child_script = Script(name="new_script")
-            self._update_ui()
 
     # -------- file i/o callbacks --------
     def on_load(self, widget):

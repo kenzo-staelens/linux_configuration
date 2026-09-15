@@ -154,4 +154,5 @@
         "/usr/lib/python3/dist-packages/"
     ],
     "python.analysis.includeExtraPathSymbolsInSymbolSearch": true,
+    "debug.breakpointsView.presentation": "tree",
 }

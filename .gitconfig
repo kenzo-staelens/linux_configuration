@@ -1,7 +1,7 @@
 [user]
-    email = kenzostael@gmail.be
+    email = kenzostael@gmail.com
     name = Kenzo Staelens
-    signingkey = ~/.ssh/id_rsa.pub
+    signingKey = ~/.ssh/id_rsa.pub
 [includeIf "hasconfig:remote.*.url:git@gitlab.com:*/**"]
     path = "~/.gitconfig_work"
 [alias]

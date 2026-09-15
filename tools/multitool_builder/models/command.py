@@ -38,27 +38,27 @@ class Command:
     def from_config(cls, p_id, cfg, script_dir: str | None=None, cfg_root: Path | None =None, parent=None):
         root_parser = cls(
             p_id,
-            cfg['name'],
+            cfg.name,
             parent=parent,
-            help_str=cfg.get('help'),
-            default=cfg.get('default')
+            help_str=cfg.help or None,
+            default=cfg.default or None
         )
         if parent is None:
-            script_dir = cfg['script_dir']
+            script_dir = cfg.script_dir
             root_parser.is_root = True
         root_parser.script_dir = script_dir
-        if sub := cfg.get('subparsers'):
+        if sub := (cfg.subparsers or None):
             parsers = [
                 cls.from_config(sp_id, parser_data, script_dir, cfg_root, p_id)
                 for sp_id, parser_data in sub.items()
             ]
             root_parser.children_subcommands = parsers
     
-        if args := cfg.get('args'):
+        if args := (cfg.args or None):
             parser_args = Argument.from_config(args)
             root_parser.children_args = parser_args
 
-        if script:=cfg.get('script'):
+        if script:=(cfg.script or None):
             sc = Script.from_config(cfg_root/script_dir, script)
             root_parser.script = script
             root_parser.child_script = sc

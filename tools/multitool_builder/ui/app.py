@@ -1,7 +1,9 @@
-import gi
-gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from .main_window import MainWindow
+from .main_window_components.main_window_dispatch import MainWindowDispatch
+from .main_window_components.main_window_nav import MainWindowNav
+
+class MainWindow(MainWindowDispatch, MainWindowNav):
+    ...
 
 class Application(Gtk.Application):
     def __init__(self, reconstruct_configs, save_configs=None):

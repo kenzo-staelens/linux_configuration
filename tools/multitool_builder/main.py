@@ -1,8 +1,11 @@
-# import gi
+import gi
+gi.require_version('Gtk', '3.0')
 from pathlib import Path
 from ui.app import Application
 from models import Command
-from multitool_lib.build_config import build_resolved
+from sigil import Parser, Resolver
+from sigil.datasource.yml_source import YmlSource
+
 
 CALLER_SCRIPT = """
 #!/usr/bin/python3
@@ -15,8 +18,9 @@ run_from_manifest(Path(__file__).parent)
 
 def reconstruct_configs(fileroot):
     cfg_root = Path(fileroot).parent
-    cfg = build_resolved(cfg_root)
-    reconstructed = Command.from_config('root',cfg, cfg_root=cfg_root)
+    parsed = Parser(YmlSource).load(cfg_root)
+    resolved = Resolver.resolve_inheritance(parsed)
+    reconstructed = Command.from_config('root',resolved, cfg_root=cfg_root)
     return reconstructed
 
 def save_configs(root_cmd: Command, filepath: Path):
